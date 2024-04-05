@@ -1,0 +1,17 @@
+{
+    "directory": "oedisi_template",
+    "execute_function": "python test_federate.py",
+    "static_inputs": [
+        {
+            "type": "",
+            "port_id": "input_needed_at_startup"
+        }
+    ],
+    "dynamic_inputs": [],
+    "dynamic_outputs": [
+        {
+            "type": "VoltageArray",
+            "port_id": "appropriate_helics_pub"
+        }
+    ]
+}

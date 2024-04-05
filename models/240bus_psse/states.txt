@@ -1,0 +1,144 @@
+xi = 0
+
+        # machine states
+
+        # GENROU
+        dyd.gen_genrou_xi_st = xi
+        dyd.gen_genrou_odr = 17
+        for i in range(len(pfd.gen_bus)):
+            self.Init_x = np.append(self.Init_x, self.Init_mac_dt[i])  # 1
+            self.Init_x = np.append(self.Init_x, 1.0*pfd.ws)  # 2
+            self.Init_x = np.append(self.Init_x, self.Init_mac_id[i])  # 3
+            self.Init_x = np.append(self.Init_x, self.Init_mac_iq[i])  # 4
+            self.Init_x = np.append(self.Init_x, self.Init_mac_ifd[i])  # 5
+            self.Init_x = np.append(self.Init_x, self.Init_mac_i1d[i])  # 6
+            self.Init_x = np.append(self.Init_x, self.Init_mac_i1q[i])  # 7
+            self.Init_x = np.append(self.Init_x, self.Init_mac_i2q[i])  # 8
+            self.Init_x = np.append(self.Init_x, self.Init_mac_ed[i])  # 9
+            self.Init_x = np.append(self.Init_x, self.Init_mac_eq[i])  # 10
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psyd[i])  # 11
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psyq[i])  # 12
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psyfd[i])  # 13
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psy1q[i])  # 14
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psy1d[i])  # 15
+            self.Init_x = np.append(self.Init_x, self.Init_mac_psy2q[i])  # 16
+            self.Init_x = np.append(self.Init_x, self.Init_mac_te[i])  # 17
+
+            xi = xi + dyd.gen_genrou_odr
+
+        # SEXS exciter model
+        dyd.exc_sexs_xi_st = xi
+        dyd.exc_sexs_odr = 2
+        for i in range(dyd.exc_sexs_n):
+            self.Init_x = np.append(self.Init_x, self.Init_mac_v1[i])  # 1
+            self.Init_x = np.append(self.Init_x, self.Init_mac_EFD[i])  # 2
+
+            xi = xi + dyd.exc_sexs_odr
+
+        # TGOV1 governor model
+        dyd.gov_tgov1_xi_st = xi
+        dyd.gov_tgov1_odr = 3
+        for i in range(dyd.gov_tgov1_n):
+            self.Init_x = np.append(self.Init_x, self.Init_tgov1_p1[i])    # 1
+            self.Init_x = np.append(self.Init_x, self.Init_tgov1_p2[i])    # 2
+
+            self.Init_x = np.append(self.Init_x, self.Init_mac_pm[i])    # 3
+
+            xi = xi + dyd.gov_tgov1_odr
+
+        # HYGOV governor model
+        dyd.gov_hygov_xi_st = xi
+        dyd.gov_hygov_odr = 5
+        for i in range(dyd.gov_hygov_n):
+            self.Init_x = np.append(self.Init_x, self.Init_hygov_xe[i])  # 1
+            self.Init_x = np.append(self.Init_x, self.Init_hygov_xc[i])  # 2
+            self.Init_x = np.append(self.Init_x, self.Init_hygov_xg[i])  # 3
+            self.Init_x = np.append(self.Init_x, self.Init_hygov_xq[i])  # 4
+
+            self.Init_x = np.append(self.Init_x, self.Init_mac_pm[i])  # 5
+
+            xi = xi + dyd.gov_hygov_odr
+
+        # GAST governor model
+        dyd.gov_gast_xi_st = xi
+        dyd.gov_gast_odr = 4
+        for i in range(dyd.gov_gast_n):
+            self.Init_x = np.append(self.Init_x, self.Init_gast_p1[i])  # 1
+            self.Init_x = np.append(self.Init_x, self.Init_gast_p2[i])  # 2
+            self.Init_x = np.append(self.Init_x, self.Init_gast_p3[i])  # 3
+
+            self.Init_x = np.append(self.Init_x, self.Init_mac_pm[i])  # 4
+
+            xi = xi + dyd.gov_gast_odr
+
+        # IEEEST
+        dyd.pss_ieeest_xi_st = xi
+        dyd.pss_ieeest_odr = 10
+        for i in range(dyd.pss_ieeest_n):
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y1[i])  # 1
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y2[i])  # 2
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y3[i])  # 3
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y4[i])  # 4
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y5[i])  # 5
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y6[i])  # 6
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_y7[i])  # 7
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_x1[i])  # 8
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_x2[i])  # 9
+            self.Init_x = np.append(self.Init_x, self.Init_ieeest_vs[i])  # 10
+
+            xi = xi + dyd.pss_ieeest_odr
+
+        # self.Init_gen_N = 22
+        dyd.ibr_odr = 44
+        for i in range(len(pfd.ibr_bus)):
+            # regca
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_s0[i])  # 1
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_s1[i])  # 2
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_s2[i])  # 3
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_Vmp[i])  # 4
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_Vap[i])  # 5
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_i1[i])  # 6
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_i2[i])  # 7
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_regca_ip2rr[i])  # 8
+
+            # reecb
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s0[i])  # 9
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s1[i])  # 10
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s2[i])  # 11
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s3[i])  # 12
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s4[i])  # 13
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_s5[i])  # 14
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_Ipcmd[i])  # 15
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_Iqcmd[i])  # 16
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_Pref[i])  # 17
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_Qext[i])  # 18
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_q2vPI[i])  # 19
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_reecb_v2iPI[i])  # 20
+
+            # repca
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s0[i])  # 21
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s1[i])  # 22
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s2[i])  # 23
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s3[i])  # 24
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s4[i])  # 25
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s5[i])  # 26
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_s6[i])  # 27
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_Vref[i])  # 28
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_Qref[i])  # 29
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_Freq_ref[i])  # 30
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_Plant_pref[i])  # 31
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_LineMW[i])  # 32
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_LineMvar[i])  # 33
+            self.Init_x_ibr = np.append(self.Init_x_ibr, np.abs(self.Init_ibr_repca_LineMVA[i]))  # 34
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_QVdbout[i])  # 35
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_fdbout[i])  # 36
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_vq2qPI[i])  # 37
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_p2pPI[i])  # 38
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_Freq_ref[i])  # 39 Vf
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_LineMW[i])  # 40 Pe
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_repca_LineMvar[i])  # 41 Qe
+
+            # PLL
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_pll_ze[i])  # 42 ze
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_pll_de[i])  # 43 de
+            self.Init_x_ibr = np.append(self.Init_x_ibr, self.Init_ibr_pll_we[i])  # 44 we

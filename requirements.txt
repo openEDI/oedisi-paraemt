@@ -1,0 +1,6 @@
+helics
+helics-apps
+pydantic<2
+oedisi
+fastapi
+uvicorn

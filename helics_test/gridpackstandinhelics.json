@@ -1,0 +1,33 @@
+
+{
+    "name": "gridpackstandin1",
+    "gridpack": {
+    },
+    "helics": {
+        "deltat": 0.000010,
+        "subscription_topic": [
+            "emt_Pinj_9_10",
+            "emt_Qinj_9_10"
+        ],
+        "publication_topic": [
+            "gridpack_i_9_10_real",
+            "gridpack_i_9_10_imag",
+            "gridpack_v_9_10_real",
+            "gridpack_v_9_10_imag"
+        ],
+        "endpoints": [
+        ],
+        "broker_ip" : "127.0.0.1",
+        "broker_port" : 32000 ,
+        "publication_interval": 0.000010,
+        "endpoint_interval": 0.000010
+    },
+    "opendss_resoution": 0.000010,
+    "publication_interval": 0.000010,
+    "endpoint_interval": 0.000010,
+    "starttime": 0,
+    "stoptime": 0.2,
+    
+    "Agent" : "gridpackstandin"
+ 
+}
