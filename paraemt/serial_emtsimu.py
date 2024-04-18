@@ -1,7 +1,6 @@
 
 import numpy as np
 import time
-import pandas as pd
 
 from paraemt.emtsimu import EmtSimu
 from paraemt.psutils import initialize_emt, modify_system

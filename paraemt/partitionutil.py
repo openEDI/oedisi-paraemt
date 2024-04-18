@@ -1,9 +1,7 @@
 # from utils import plot_network, plot_matrix
 
 import networkx as nx
-import scipy.sparse.csgraph as csgraph
 import nxmetis
-import scipy
 import numpy as np
 
 from scipy.sparse import csc_matrix

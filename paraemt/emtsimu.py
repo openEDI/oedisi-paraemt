@@ -2,7 +2,6 @@ import pickle
 import numpy as np
 import time
 import os
-import matplotlib.pyplot as plt
 from collections import deque
 
 from paraemt.states import States
@@ -15,7 +14,6 @@ from paraemt.lib_numba import *
 
 from ctypes import *
 
-import matplotlib.pyplot as plt
 
 from paraemt.Python_C_DLL_wrapper import wrap_function, MODELINSTANCE, MODELINFO
 shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"
@@ -1945,7 +1943,7 @@ class EmtSimu():
                 # imag_powers = [ str( self.Sinj[iii].imag) for iii in range(len(self.Sinj))]
                 # imag_powers_str = ",".join(imag_powers)
                 # print(imag_powers_str)
-            except Exception as e:
+            except Exception:
                 pass
         ## End if compute_phasor
 

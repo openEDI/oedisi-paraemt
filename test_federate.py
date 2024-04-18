@@ -9,7 +9,6 @@ from datetime import datetime
 
 import helics as h
 from oedisi.types.common import BrokerConfig
-from oedisi.types.data_types import VoltageArray
 from pydantic import BaseModel
 
 from ctypes import *  # For DLL

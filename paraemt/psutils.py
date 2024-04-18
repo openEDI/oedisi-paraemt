@@ -3,14 +3,12 @@ import json
 import numpy as np
 import os
 import time
-import pandas as pd
 
 import xlrd
 # xlrd.xlsx.ensure_elementtree_imported(False, None)
 # xlrd.xlsx.Element_has_iter = True
 
 from paraemt.dydata import DyData
-from paraemt.emtsimu import EmtSimu
 from paraemt.initialize import Initialize
 from paraemt.pfdata import PFData
 
@@ -41,7 +39,7 @@ def get_json_pkl(filename):
                 else:
                     tmp = data[x]
                     data[x] = np.array(tmp)
-            except Exception as e:
+            except Exception:
                 tmp = data[x]
                 data[x] = np.array(tmp)
 

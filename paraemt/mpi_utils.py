@@ -1,7 +1,6 @@
 
 import numpy as np
 
-from mpi4py import MPI
 
 def mpi_print(to_print, comm, root=0):
     if comm.Get_rank() == root:
