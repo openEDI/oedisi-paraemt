@@ -14,7 +14,6 @@ os_path_PSSE = r"C:\Program Files (x86)\PTI\PSSE34\PSSPY37"  # or where else you
 ierr=sys.path.append(os_path_PSSE)
 os.environ['PATH'] += ';' + os_path_PSSE
 
-import psse34
 import psspy
 from psspy import _i, _f
 

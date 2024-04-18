@@ -1,14 +1,17 @@
-# OEDISI Federate Template
+# ParaEMT with OEDISI
 
-## Modifying the Template
+Since there are no subscriptions to depend on, this federate
+can be tested standalone with two scripts running simultaneously
 
-- `test_federate.py` defines the core Python simulation code using HELICS and oedisi types.
-- `component_definition.json` defines static inputs and dynamic inputs/outputs
-managed by JSON files and HELICS respectively.
+```
+helics_broker -f 1
+```
 
-- `requirements.txt` any python requirements used by Python.
-- `server.py` is an optional file used in multi-container
-simulations. No modifications may be necessary.
+and
+
+```
+python test_federate.py
+```
 
 ## Install Requirements
 

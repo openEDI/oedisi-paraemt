@@ -1,9 +1,7 @@
 #Python 37
 from ctypes import *
 from sys import platform
-import os, math
-import numpy as np
-import pylab as pl
+import os
 
 # Ensure is dll is created as 64 bit dll
 shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"

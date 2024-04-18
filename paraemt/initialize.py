@@ -539,7 +539,7 @@ class Initialize():
             Iq = np.imag(It) * math.cos(thetaPLL) - np.real(It) * math.sin(thetaPLL)  # q - Mvar
 
             Pelec = Vd * Id + Vq * Iq   # P3
-            Qelec = -Vd * Iq + Vq * Id;   # Q3
+            Qelec = -Vd * Iq + Vq * Id   # Q3
 
             # P4 = Vtd * Id + Vtq * Iq
             # Q4 = -Vtd * Iq + Vtq * Id;   
