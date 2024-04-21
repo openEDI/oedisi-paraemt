@@ -25,9 +25,8 @@ class storage:
 
 
 def get_json_pkl(filename):
-    f = open(
-        filename,
-    )
+
+    f = open(filename,)
     data = json.load(f)
 
     for x in data.keys():
@@ -41,23 +40,25 @@ def get_json_pkl(filename):
                 else:
                     tmp = data[x]
                     data[x] = np.array(tmp)
-            except Exception:
+            except Exception as e:
                 tmp = data[x]
                 data[x] = np.array(tmp)
 
     pfd = storage(**data)
 
-    return pfd
+    return (pfd)
 
 
 def load_pfd(filename):
+    m=get_json_pkl(filename)
     return PFData.load_from_json(get_json_pkl(filename))
 
 
 def initialize_emt_from_file(
     workingfolder, pfd_name,  dyd_name, N_row, N_col, ts, network_mode, loadmodel_option, record4cosim
 ):
-    pfd = load_pfd(pfd_name)
+    file_pfd=os.path.join(workingfolder, pfd_name)
+    pfd = load_pfd(file_pfd)
 
     file_dydata = os.path.join(workingfolder, dyd_name)
     dyd0 = DyData()
