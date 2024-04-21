@@ -55,12 +55,13 @@ def load_pfd(filename):
 
 
 def initialize_emt_from_file(
-    pfd_name, dyd_name, N_row, N_col, ts, network_mode, loadmodel_option, record4cosim
+    workingfolder, pfd_name,  dyd_name, N_row, N_col, ts, network_mode, loadmodel_option, record4cosim
 ):
     pfd = load_pfd(pfd_name)
 
+    file_dydata = os.path.join(workingfolder, dyd_name)
     dyd0 = DyData()
-    dyd0.getdata(dyd_name, pfd, N_row * N_col)
+    dyd0.getdata(file_dydata, pfd, N_row * N_col)
 
     if N_row * N_col > 1:
         dyd = dyd0.spreaddyd(pfd, dyd0, N_row * N_col)

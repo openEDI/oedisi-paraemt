@@ -1,7 +1,7 @@
 {
     "name": "paraemt",
-    "pfd_file": "cases/pfd_2area_1_1.json",
-    "dyd_file": "models/2area_psse/Benchmark_twoarea.xlsx",
+    "pfd_file": "cases\\pfd_2area_1_1.json",
+    "dyd_file": "models\\2area_psse\\Benchmark_twoarea.xlsx",
     "systemN": 6,
     "DSrate": 40,
     "ts": 50e-6,

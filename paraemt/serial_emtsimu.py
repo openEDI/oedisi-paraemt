@@ -14,8 +14,10 @@ class SerialEmtSimu(EmtSimu):
 
     def __init__(
         self,
-        pfd_name,
-        dyd_name,
+        pfd_name='',
+        dyd_name='',
+        systemN=1,
+        EMT_N=0,
         N_row=1,
         N_col=1,
         ts=50e-6,
@@ -27,12 +29,14 @@ class SerialEmtSimu(EmtSimu):
         loadmodel_option=1,
         record4cosim=False,
         playback_enable=True,
+        workingfolder='',
         Gd=100,
         Go=0.001,
     ):
         t0 = time.time()
 
         (pfd, ini, dyd, emt_zones) = initialize_emt_from_file(
+            workingfolder,
             pfd_name,
             dyd_name,
             N_row,
@@ -58,6 +62,8 @@ class SerialEmtSimu(EmtSimu):
         self.iphasor = 0
         self.vphasor = 0
 
+        self.systemN = systemN
+        self.EMT_N = EMT_N
         self.ini = ini
         self.pfd = pfd
         self.dyd = dyd
@@ -81,6 +87,7 @@ class SerialEmtSimu(EmtSimu):
         self.playback_tn = 0
         self.Gd = Gd
         self.Go = Go
+        self.workingfolder=workingfolder # Added, Min
 
         t1 = time.time()
 

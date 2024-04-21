@@ -21,6 +21,7 @@ logger.setLevel(logging.INFO)
 EMT_config = {
     "name": "paramemt",
     # Important
+    "systemN": 6,
     "DSrate": 40,  # down sampling rate, i.e. results saved every DSrate sim steps.
     "ts": 50e-6,  # time step, second
     "Tlen": 2,  # total simulation time length, second
@@ -62,8 +63,9 @@ class ParaemtConfig(BaseModel):
 
     name: str
     # Configuration in JSON format
-    pdf_file: str
+    pfd_file: str
     dyd_file: str
+    systemN: int 
     SimMod: int  # 0 - Standard Initialization, 1 - Initialize from Snapshot
     save_snapshot: bool  # Save snapshot at end of run or not
     save_snapshot_mode: (
@@ -114,92 +116,92 @@ class ParaemtConfig(BaseModel):
     # fault_tripline = 0
 
 
-def initialize_emt(config: ParaemtConfig):
-    # ==========================================================================
-    # Read the JOSON configuuration of EMT simulation
-    # ParaEMT initialization
-    shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"  # EPRI's IBR model
-    add_lib = CDLL(shared_lib_path)
-    Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
-    Model_Outputs = wrap_function(
-        add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)]
-    )
-    info = Model_GetInfo()
-    num_in_ports, num_out_ports, num_param = (
-        info.contents.cNumInputPorts,
-        info.contents.cNumOutputPorts,
-        info.contents.cNumParameters,
-    )
-    num_int_states, num_float_states, num_double_states = (
-        info.contents.cNumIntStates,
-        info.contents.cNumFloatStates,
-        info.contents.cNumDoubleStates,
-    )
+# def initialize_emt(config: ParaemtConfig):
+#     # ==========================================================================
+#     # Read the JOSON configuuration of EMT simulation
+#     # ParaEMT initialization
+#     shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"  # EPRI's IBR model
+#     add_lib = CDLL(shared_lib_path)
+#     Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
+#     Model_Outputs = wrap_function(
+#         add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)]
+#     )
+#     info = Model_GetInfo()
+#     num_in_ports, num_out_ports, num_param = (
+#         info.contents.cNumInputPorts,
+#         info.contents.cNumOutputPorts,
+#         info.contents.cNumParameters,
+#     )
+#     num_int_states, num_float_states, num_double_states = (
+#         info.contents.cNumIntStates,
+#         info.contents.cNumFloatStates,
+#         info.contents.cNumDoubleStates,
+#     )
 
-    sim_info = """
-    ---- Sim Info ----
-    System: {}, {}
-    N Rows: {:d}
-    N Cols: {:d}
-    Time Step: {:.8e}
-    Time End: {:e}
-    Network Solve Mode: {:s}
-    """.format(
-        config.pdf_file,
-        config.dyd_file,
-        config.N_row,
-        config.N_col,
-        config.ts,
-        config.Tlen,
-        config.netMod,
-    )
-    print(sim_info)
-    # TODO: Test and debug snapshot stuff
-    input_snp = (
-        "sim_snp_S" + str(config.name) + "_" + str(int(config.ts * 1e6)) + "u_1pt.pkl"
-    )
-    t0 = time.time()
-    if config.SimMod == 0:
-        emt = SerialEmtSimu(
-            workingfolder=os.getcwd(),
-            systemN=config.systemN,
-            EMT_N=config.EMT_N,
-            N_row=config.N_row,
-            N_col=config.N_col,
-            ts=config.ts,
-            Tlen=config.Tlen,
-            kts=config.kts,
-            stepk=config.stepk,
-            save_rate=config.DSrate,
-            netMod=config.netMod,
-            loadmodel_option=config.loadmodel_option,
-            record4cosim=config.record4cosim,
-            playback_enable=config.playback_enable,
-            Gd=config.Gd,
-            Go=config.Go,
-        )
-    else:
-        print("Loading snapshot file: ", input_snp)
-        emt = SerialEmtSimu.initialize_from_snp(input_snp, config.netMod)
-    emt.compute_phasor = config.compute_phasor
-    emt.tsat_gen_omg = [0]
-    emt.tsat_gen_maci = [0]
-    emt.tsat_t = [0]
-    emt.Tlen = config.Tlen
-    # ctrl step change
-    emt.t_sc = config.t_sc
-    emt.i_gen_sc = config.i_gen_sc
-    emt.flag_exc_gov = config.flag_exc_gov
-    emt.dsp = config.dsp
-    emt.flag_sc = config.flag_sc
-    # gen trip
-    emt.t_gentrip = config.t_gentrip
-    emt.i_gentrip = config.i_gentrip
-    emt.flag_gentrip = config.flag_gentrip
-    emt.flag_reinit = config.flag_reinit
-    emt.t_release_f = config.t_release_f
-    emt.loadmodel_option = config.loadmodel_option
-    return emt
+#     sim_info = """
+#     ---- Sim Info ----
+#     System: {}, {}
+#     N Rows: {:d}
+#     N Cols: {:d}
+#     Time Step: {:.8e}
+#     Time End: {:e}
+#     Network Solve Mode: {:s}
+#     """.format(
+#         config.pdf_file,
+#         config.dyd_file,
+#         config.N_row,
+#         config.N_col,
+#         config.ts,
+#         config.Tlen,
+#         config.netMod,
+#     )
+#     print(sim_info)
+#     # TODO: Test and debug snapshot stuff
+#     input_snp = (
+#         "sim_snp_S" + str(config.name) + "_" + str(int(config.ts * 1e6)) + "u_1pt.pkl"
+#     )
+#     t0 = time.time()
+#     if config.SimMod == 0:
+#         emt = SerialEmtSimu(
+#             workingfolder=os.getcwd(),
+#             systemN=config.systemN,
+#             EMT_N=config.EMT_N,
+#             N_row=config.N_row,
+#             N_col=config.N_col,
+#             ts=config.ts,
+#             Tlen=config.Tlen,
+#             kts=config.kts,
+#             stepk=config.stepk,
+#             save_rate=config.DSrate,
+#             netMod=config.netMod,
+#             loadmodel_option=config.loadmodel_option,
+#             record4cosim=config.record4cosim,
+#             playback_enable=config.playback_enable,
+#             Gd=config.Gd,
+#             Go=config.Go,
+#         )
+#     else:
+#         print("Loading snapshot file: ", input_snp)
+#         emt = SerialEmtSimu.initialize_from_snp(input_snp, config.netMod)
+#     emt.compute_phasor = config.compute_phasor
+#     emt.tsat_gen_omg = [0]
+#     emt.tsat_gen_maci = [0]
+#     emt.tsat_t = [0]
+#     emt.Tlen = config.Tlen
+#     # ctrl step change
+#     emt.t_sc = config.t_sc
+#     emt.i_gen_sc = config.i_gen_sc
+#     emt.flag_exc_gov = config.flag_exc_gov
+#     emt.dsp = config.dsp
+#     emt.flag_sc = config.flag_sc
+#     # gen trip
+#     emt.t_gentrip = config.t_gentrip
+#     emt.i_gentrip = config.i_gentrip
+#     emt.flag_gentrip = config.flag_gentrip
+#     emt.flag_reinit = config.flag_reinit
+#     emt.t_release_f = config.t_release_f
+#     emt.loadmodel_option = config.loadmodel_option
+#     return emt
 
 
 class ParaemtFederate:
@@ -253,8 +255,99 @@ class ParaemtFederate:
         self.pub_V = self.vfed.register_publication(
             "emt_Vsol", h.HELICS_DATA_TYPE_STRING, ""
         )
+    
+    # TODO to confirm, moved here
+    # def initialize_emt(config: ParaemtConfig):
+    def initialize_emt(self, config): # TODO to confirm, Min added self
+        # ==========================================================================
+        # Read the JOSON configuuration of EMT simulation
+        # ParaEMT initialization
+        shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"  # EPRI's IBR model
+        add_lib = CDLL(shared_lib_path)
+        Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
+        Model_Outputs = wrap_function(
+            add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)]
+        )
+        info = Model_GetInfo()
+        num_in_ports, num_out_ports, num_param = (
+            info.contents.cNumInputPorts,
+            info.contents.cNumOutputPorts,
+            info.contents.cNumParameters,
+        )
+        num_int_states, num_float_states, num_double_states = (
+            info.contents.cNumIntStates,
+            info.contents.cNumFloatStates,
+            info.contents.cNumDoubleStates,
+        )
 
-    def run(self, emt, config):
+        sim_info = """
+        ---- Sim Info ----
+        System: {}, {}
+        N Rows: {:d}
+        N Cols: {:d}
+        Time Step: {:.8e}
+        Time End: {:e}
+        Network Solve Mode: {:s}
+        """.format(
+            config.pfd_file,
+            config.dyd_file,
+            config.N_row,
+            config.N_col,
+            config.ts,
+            config.Tlen,
+            config.netMod,
+        )
+        print(sim_info)
+        # TODO: Test and debug snapshot stuff
+        input_snp = (
+            "sim_snp_S" + str(config.name) + "_" + str(int(config.ts * 1e6)) + "u_1pt.pkl"
+        )
+        t0 = time.time()
+        if config.SimMod == 0:
+            self.emt = SerialEmtSimu(
+                workingfolder=os.getcwd(),
+                pfd_name=config.pfd_file,
+                dyd_name=config.dyd_file,
+                systemN=config.systemN,
+                EMT_N=config.EMT_N,
+                N_row=config.N_row,
+                N_col=config.N_col,
+                ts=config.ts,
+                Tlen=config.Tlen,
+                kts=config.kts,
+                stepk=config.stepk,
+                save_rate=config.DSrate,
+                netMod=config.netMod,
+                loadmodel_option=config.loadmodel_option,
+                record4cosim=config.record4cosim,
+                playback_enable=config.playback_enable,
+                Gd=config.Gd,
+                Go=config.Go,
+            )
+        else:
+            print("Loading snapshot file: ", input_snp)
+            self.emt = SerialEmtSimu.initialize_from_snp(input_snp, config.netMod)
+        self.emt.compute_phasor = config.compute_phasor
+        self.emt.tsat_gen_omg = [0]
+        self.emt.tsat_gen_maci = [0]
+        self.emt.tsat_t = [0]
+        self.emt.Tlen = config.Tlen
+        # ctrl step change
+        self.emt.t_sc = config.t_sc
+        self.emt.i_gen_sc = config.i_gen_sc
+        self.emt.flag_exc_gov = config.flag_exc_gov
+        self.emt.dsp = config.dsp
+        self.emt.flag_sc = config.flag_sc
+        # gen trip
+        self.emt.t_gentrip = config.t_gentrip
+        self.emt.i_gentrip = config.i_gentrip
+        self.emt.flag_gentrip = config.flag_gentrip
+        self.emt.flag_reinit = config.flag_reinit
+        self.emt.t_release_f = config.t_release_f
+        self.emt.loadmodel_option = config.loadmodel_option
+        return self.emt
+
+    def run(self, config):
         """Run HELICS simulation until completion."""
         # Starts HELICS simulation. Essentially says to broker "This simulation is ready"
         self.vfed.enter_executing_mode()
@@ -496,15 +589,17 @@ class ParaemtFederate:
 def run_simulator(broker_config: BrokerConfig):
     """Creates and runs HELICS simulation."""
 
-    # Static inputs are always defined in a static_inputs.json
-    with open("static_inputs.json") as f:
+    # Static inputs are always defined in a static_inputs.json   
+    with open("static_config.json") as f:  # Original code: with open("static_inputs.json") as f:
         config = ParaemtConfig(**json.load(f))
 
+    # TODO,  do not have required file
     # Any HELICS subscriptions should use input_mapping.json
-    with open("input_mapping.json") as f:
+    # with open("input_mapping.json") as f:
+    with open("component_definition.json") as f: # Revised by Min
         input_mapping = json.load(f)
 
-    sfed = ParaemtFederate(config, input_mapping, broker_config)
+    sfed = ParaemtFederate(config, input_mapping, broker_config)  # include emt_initialization here
     sfed.run()
 
 
