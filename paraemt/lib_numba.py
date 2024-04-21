@@ -2,11 +2,8 @@
 import numpy as np
 # import scipy.sparse as sp
 import numba
-
 # from numba import config
-
 # config.DISABLE_JIT = False
-
 # import math
 
 @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
@@ -24,7 +21,7 @@ def numba_set_coo(
     data[idx] = val
     return
 
-@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_InitNet(
         # pfd
         basemva,
