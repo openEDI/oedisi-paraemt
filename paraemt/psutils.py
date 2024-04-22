@@ -106,7 +106,8 @@ def initialize_emt_from_file(
     ini.MergeMacG(pfd, dyd, ts, [])
     ini.InitIhis()
     ini.CalcGnGinv(network_mode)
-    return pfd, ini, dyd
+    emt_zones=[]  #TODO, check correct or not
+    return pfd, ini, dyd, emt_zones
 
 
 def initialize_emt(

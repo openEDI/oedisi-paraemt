@@ -35,7 +35,7 @@ class SerialEmtSimu(EmtSimu):
     ):
         t0 = time.time()
 
-        (pfd, ini, dyd) = initialize_emt_from_file(
+        (pfd, ini, dyd, emt_zones) = initialize_emt_from_file(
             workingfolder,
             pfd_name,
             dyd_name,
@@ -68,7 +68,6 @@ class SerialEmtSimu(EmtSimu):
         self.pfd = pfd
         self.dyd = dyd
         self.emt_zones = emt_zones
-
         self.init_ibr_epri()
 
         self.preprocess(ini, pfd, dyd)

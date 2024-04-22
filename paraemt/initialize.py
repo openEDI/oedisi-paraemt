@@ -749,10 +749,10 @@ class Initialize():
 
             P = pfd.ibr_MW[i] / dyd.ibr_MVAbase[i]
             Q = pfd.ibr_Mvar[i] / dyd.ibr_MVAbase[i]
-            S = np.complex(P, Q)
+            S = np.complex128(P, Q)
             Vm = pfd.bus_Vm[ibrbus_idx]
             Va = pfd.bus_Va[ibrbus_idx]
-            Vt = np.complex(Vm*math.cos(Va), Vm*math.sin(Va))
+            Vt = np.complex128(Vm*math.cos(Va), Vm*math.sin(Va))
 
             It = np.conj(S/Vt)
 
@@ -840,10 +840,10 @@ class Initialize():
 
             P = pfd.ibr_MW[i] / dyd.ibr_MVAbase[i]
             Q = pfd.ibr_Mvar[i] / dyd.ibr_MVAbase[i]
-            S = np.complex(P, Q)
+            S = np.complex128(P, Q)
             Vm = pfd.bus_Vm[ibrbus_idx]
             Va = pfd.bus_Va[ibrbus_idx]
-            Vt = np.complex(Vm * math.cos(Va), Vm * math.sin(Va))
+            Vt = np.complex128(Vm * math.cos(Va), Vm * math.sin(Va))
             It = np.conj(S / Vt)
 
             if abs(dyd.ibr_repca_branch_From_bus[i]) + abs(dyd.ibr_repca_branch_To_bus[i]) == 0:
@@ -860,9 +860,9 @@ class Initialize():
                 remote_bus_idx = np.where(pfd.bus_num == dyd.ibr_repca_remote_bus[i])
                 Vm_rem = pfd.bus_Vm[remote_bus_idx]
                 Va_rem = pfd.bus_Va[remote_bus_idx]
-                Vreg = np.complex(Vm_rem * math.cos(Va_rem), Vm_rem * math.sin(Va_rem))
+                Vreg = np.complex128(Vm_rem * math.cos(Va_rem), Vm_rem * math.sin(Va_rem))
 
-            V1_in1 = np.abs(Vreg + np.complex(dyd.ibr_repca_Rc[i], dyd.ibr_repca_Xc[i]) * Ibranch)
+            V1_in1 = np.abs(Vreg + np.complex128(dyd.ibr_repca_Rc[i], dyd.ibr_repca_Xc[i]) * Ibranch)
             V1_in0 = Qbranch * dyd.ibr_repca_Kc[i] + Vm
 
             if dyd.ibr_repca_VCFlag[i] == 0:
