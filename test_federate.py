@@ -335,14 +335,15 @@ class ParaemtFederate:
         ts = config.ts
         t1 = time.time()
         while tn * ts < config.Tlen:
-            logger.info("start time: " + str(datetime.now()))
+            # logger.info("start time: " + str(datetime.now()))
             # ==========================================================================
             # Run Paraself.emt, Only the time loop function
             tn += 1
             if config.show_progress:  # Print the simulation progress
                 if tn > 1:
-                    if np.mod(tn, 500) == 0:
-                        print("%.3f" % self.emt.t[-1])
+                    if np.mod(tn, self.save_rate) == 0:
+                        logger.info("start time: " + str(datetime.now()))  # TODO, confirm, move here okay? necessary?
+                        print("%.4f" % self.emt.t[-1])
             tl_0 = time.time()
             flag_reini = 0
             self.emt.StepChange(self.emt.dyd, self.emt.ini, tn)  # configure step change in exc or gov references
@@ -440,17 +441,17 @@ class ParaemtFederate:
         if save_results_csv:
             print("Saving results...")
             df_v = pd.DataFrame(self.emt.v).T
-            df_v.to_csv("paraself.emt_v.csv")
+            df_v.to_csv("paraemt.emt_v.csv")
             df_x = pd.DataFrame(self.emt.x).T
-            df_x.to_csv("paraself.emt_x.csv")
+            df_x.to_csv("paraemt.emt_x.csv")
             df_ibr = pd.DataFrame(self.emt.x_ibr).T
-            df_ibr.to_csv("paraself.emt_ibr.csv")
+            df_ibr.to_csv("paraemt.emt_ibr.csv")
             df_ebr = pd.DataFrame(self.emt.x_ibr_epri).T
-            df_ebr.to_csv("paraself.emt_ebr.csv")
+            df_ebr.to_csv("paraemt.emt_ebr.csv")
             df_bus = pd.DataFrame(self.emt.x_bus).T
-            df_bus.to_csv("paraself.emt_bus.csv")
+            df_bus.to_csv("paraemt.emt_bus.csv")
             df_load = pd.DataFrame(self.emt.x_load).T
-            df_load.to_csv("paraself.emt_load.csv")
+            df_load.to_csv("paraemt.emt_load.csv")
         # Save simulation snapshot locally
         output_snp_ful = (
             "sim_snp_S" + str(config.systemN) + "_" + str(int(ts * 1e6)) + "u.pkl"
@@ -524,8 +525,8 @@ class ParaemtFederate:
 
         timing_string = f"""**** Timing Info ****
 
-        Dimension:   {self.ini.Init_net_G0_inv.shape[0]:8d}
-        Init:        {self.init_time:10.2e} {self.init_time / elapsed:8.2%}
+        Dimension:   {self.emt.ini.Init_net_G0_inv.shape[0]:8d}
+        Init:        {self.emt.init_time:10.2e} {self.emt.init_time / elapsed:8.2%}
         Comp:        {numba_comp:10.2e} {numba_comp / elapsed:8.2%}
         {variable_timing_string}
         Total:       {elapsed:10.2e}
