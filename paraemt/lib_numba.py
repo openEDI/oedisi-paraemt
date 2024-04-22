@@ -1993,11 +1993,10 @@ def numba_updateXibr(
         s6_temp = repca_s6_1 + (s5_temp - repca_s6_1) / ibr_repca_Tg[i] * ts
         nx_repca_s6 = s6_temp
 
-        Sbranch = np.complex(repca_LineMW_1, repca_LineMvar_1)
-        Vcom = np.complex(Vm * np.cos(Va), Vm * np.sin(Va))
+        Sbranch = np.complex128(repca_LineMW_1, repca_LineMvar_1)
+        Vcom = np.complex128(Vm * np.cos(Va), Vm * np.sin(Va))
         Ibranch = np.conj(Sbranch / Vcom)
-
-        V1_in1 = np.abs(Vcom - np.complex(ibr_repca_Rc[i], ibr_repca_Xc[i]) * Ibranch)
+        V1_in1 = np.abs(Vcom - np.complex128(ibr_repca_Rc[i], ibr_repca_Xc[i]) * Ibranch)
         V1_in0 = Vm + repca_LineMvar_1 * ibr_repca_Kc[i]
 
         if ibr_repca_VCFlag[i] == 0:
@@ -2053,7 +2052,7 @@ def numba_updateXibr(
 
         nx_repca_LineMW = pe
         nx_repca_LineMvar = qe
-        nx_repca_LineMVA = np.abs(np.complex(pe, qe))
+        nx_repca_LineMVA = np.abs(np.complex128(pe, qe))
 
         # set point for V, Q, Freq and pref
         nx_repca_Vref = repca_Vref_1
