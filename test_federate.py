@@ -345,15 +345,16 @@ class ParaemtFederate:
                         print("%.3f" % self.emt.t[-1])
             tl_0 = time.time()
             flag_reini = 0
-            self.emt.StepChange(
-                self.emt.dyd, self.emt.ini, tn
-            )  # configure step change in exc or gov references
-            if (
-                config.flag_gentrip == 0 and config.flag_reinit == 1
-            ):  # If the generator is tripped
+            self.emt.StepChange(self.emt.dyd, self.emt.ini, tn)  # configure step change in exc or gov references
+            if (config.flag_gentrip == 0 and config.flag_reinit == 1):  # If the generator is tripped
                 flag_reini = 1
+            # TODO, add fault code here in future
+            self.emt.Ginv = self.emt.ini.Init_net_G0  
+            self.emt.net_coe = self.emt.ini.Init_net_coe0
+            self.emt.Glu = self.emt.ini.Init_net_G0_lu
+
             tl_1 = time.time()
-            self.emt.predictX(self.emt.pfd, self.emt.dyd, self.emt.ts)
+            self.emt.predictX(self.emt.pfd, self.emt.dyd, ts)
             tl_2 = time.time()
             self.emt.updateIg(self.emt.pfd, self.emt.dyd, self.emt.ini)
             tl_3 = time.time()

@@ -849,7 +849,7 @@ class EmtSimu:
 
         return
 
-    def predictX(self, pfd, dyd, ts):
+    def predictX(self,pfd,dyd,ts):
         # t1 = time.time()
 
         xlen = len(self.x)
