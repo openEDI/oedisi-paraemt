@@ -261,7 +261,6 @@ class ParaemtFederate:
         input_snp = (
             "sim_snp_S" + str(config.name) + "_" + str(int(config.ts * 1e6)) + "u_1pt.pkl"
         )
-        t0 = time.time()
         if config.SimMod == 0:
             self.emt = SerialEmtSimu(
                 workingfolder=os.getcwd(),
@@ -286,6 +285,7 @@ class ParaemtFederate:
         else:
             print("Loading snapshot file: ", input_snp)
             self.emt = SerialEmtSimu.initialize_from_snp(input_snp, config.netMod)
+        self.save_rate=config.DSrate
         self.emt.compute_phasor = config.compute_phasor
         self.emt.tsat_gen_omg = [0]
         self.emt.tsat_gen_maci = [0]
@@ -362,14 +362,10 @@ class ParaemtFederate:
             tl_4 = time.time()
             self.emt.updateIibr_epri(self.emt.pfd, self.emt.dyd, self.emt.ini, tn)
             tl_5 = time.time()
-            self.emt.updateIl(
-                self.emt.pfd, self.emt.dyd, tn
-            )  # update current injection from load
+            self.emt.updateIl(self.emt.pfd, self.emt.dyd, tn)  # update current injection from load
             tl_6 = time.time()
             tl_7 = time.time()
-            self.emt.GenTrip(
-                self.emt.pfd, self.emt.dyd, self.emt.ini, tn
-            )  # configure generation trip
+            self.emt.GenTrip(self.emt.pfd, self.emt.dyd, self.emt.ini, tn)  # configure generation trip
             tl_8 = time.time()
             # re-init
             if flag_reini == 1:
