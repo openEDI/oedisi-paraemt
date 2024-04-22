@@ -167,7 +167,7 @@ class ParaemtFederate:
     def __init__(
         self,
         config: ParaemtConfig,
-        input_mapping: dict[str, str],
+        input_mapping: dict[str, str], # TODO component_definition? Necessary?
         broker_config: BrokerConfig,
     ):
         """Paraemt HELICS federate with oedisi
@@ -341,7 +341,7 @@ class ParaemtFederate:
             tn += 1
             if config.show_progress:  # Print the simulation progress
                 if tn > 1:
-                    if np.mod(tn, self.save_rate) == 0:
+                    if np.mod(tn, 200) == 0: 
                         logger.info("start time: " + str(datetime.now()))  # TODO, confirm, move here okay? necessary?
                         print("%.4f" % self.emt.t[-1])
             tl_0 = time.time()
