@@ -559,7 +559,7 @@ def run_simulator(broker_config: BrokerConfig):
         input_mapping = json.load(f)
 
     sfed = ParaemtFederate(config, input_mapping, broker_config)  # include emt_initialization here
-    sfed.run()
+    sfed.run(config)
 
 
 if __name__ == "__main__":
