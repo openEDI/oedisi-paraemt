@@ -18,49 +18,8 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.INFO)
 
-EMT_config = {
-    "name": "paramemt",
-    # Important
-    "systemN": 6,
-    "DSrate": 40,  # down sampling rate, i.e. results saved every DSrate sim steps.
-    "ts": 50e-6,  # time step, second
-    "Tlen": 2,  # total simulation time length, second
-    "use_helics": False,
-    # Less important
-    "SimMod": 0,  # 0 - Standard Initialization, 1 - Initialize from Snapshot
-    "save_snapshot": False,  # Save snapshot at end of run or not
-    "save_snapshot_mode": 0,  # 0 - 1 point snapshot, 1 - whole simulation snapshot, 2 - both
-    "compute_phasor": 1,
-    "dump_all": False,  # Save to CSVs intermediate calculation results--useful for debugging
-    "save_results_csv": True,  # Save results to csv files
-    "show_progress": True,  # Display simulation progress
-    "record4cosim": True,  # recording for pseudo co-sim
-    "playback_enable": False,  # playback or helics for co-sim: True: play recorded signals, False: read signals thru helics
-    "playback_voltphasor": False,  # replay voltage phasors at all buses
-    "N_row": 1,  # haven't tested the mxn layout, so plz don't set N_row/N_col to other nums.
-    "N_col": 1,
-    "kts": 333,  # phasor step = kts * EMT steps
-    "stepk": 332,  # k-th EMT step within one phasor step, initialized at kts-1
-    "t_release_f": 0,
-    "loadmodel_option": 1,  # 1-const rlc, 2-const z
-    "netMod": "lu",
-    "Gd": 100,  # interface R for pseudo co-sim
-    "Go": 0.001,
-    "t_sc": 2000,  # ctrl step change time
-    "i_gen_sc": 2,
-    "flag_exc_gov": 0,  # 0 - exc, 1 - gov
-    "dsp": -0.02,
-    "flag_sc": 1,  # defulat 1, do not change
-    "t_gentrip": 1000,  # gen trip time
-    "i_gentrip": 1,  # gen idx
-    "flag_gentrip": 1,
-    "flag_reinit": 1,
-}
-
-
 class ParaemtConfig(BaseModel):
     """Pydantic model for the static configuration of paraemt."""
-
     name: str
     # Configuration in JSON format
     pfd_file: str
