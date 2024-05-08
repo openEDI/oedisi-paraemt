@@ -1,0 +1,21 @@
+
+{
+    "name": "test_federate",
+    "period": 0.001,
+    "publications": [
+    {
+        "global": true,
+        "key": "test_federate/V_net",   
+        "type": "double"
+    },
+    {
+        "global": true,
+        "key": "test_federate/I_net",
+        "type": "double"
+    }
+      ],
+
+    "subscriptions": [
+
+    ]
+}
