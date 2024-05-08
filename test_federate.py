@@ -96,6 +96,26 @@ class ParaemtFederate:
         self.emt = self.initialize_emt(config)
 
         # Create HELICS Federate object that describes the federate properties
+        # fed = h.helicsCreateValueFederateFromConfig("test_fed_config.json")
+        # federate_name = h.helicsFederateGetName(fed)
+        # logger.info(f"Created federate {federate_name}")
+        # sub_count = h.helicsFederateGetInputCount(fed)
+        # logger.debug(f"\tNumber of subscriptions: {sub_count}")
+        # pub_count = h.helicsFederateGetPublicationCount(fed)
+        # logger.debug(f"\tNumber of publications: {pub_count}")
+        # # Diagnostics to confirm JSON config correctly added the required
+        # #   publications and subscriptions
+        # subid = {}
+        # for i in range(0, sub_count):
+        #     subid[i] = h.helicsFederateGetInputByIndex(fed, i)
+        #     sub_name = h.helicsSubscriptionGetTarget(subid[i])
+        #     logger.debug(f"\tRegistered subscription---> {sub_name}")
+        # self.pubid = {}
+        # for i in range(0, pub_count):
+        #     self.pubid[i] = h.helicsFederateGetPublicationByIndex(fed, i)
+        #     pub_name = h.helicsPublicationGetName(self.pubid[i])
+        #     logger.debug(f"\tRegistered publication---> {pub_name}")
+
         fedinfo = h.helicsCreateFederateInfo()
         fedinfo.core_name = config.name  # Sets HELICS name
         fedinfo.core_type = (
@@ -116,14 +136,11 @@ class ParaemtFederate:
         logger.info("Value federate created")
 
         # This should match the dynamic output in component_definition.json
-        self.pub_Pinj = self.vfed.register_publication(
-            "emt_Pinj", h.HELICS_DATA_TYPE_DOUBLE, ""
+        self.pub_V_net = self.vfed.register_publication(
+            "emt_Vsol", h.HELICS_DATA_TYPE_DOUBLE, ""
         )
-        self.pub_Qinj = self.vfed.register_publication(
-            "emt_Qinj", h.HELICS_DATA_TYPE_DOUBLE, ""
-        )
-        self.pub_V = self.vfed.register_publication(
-            "emt_Vsol", h.HELICS_DATA_TYPE_STRING, ""
+        self.pub_I_net = self.vfed.register_publication(
+            "emt_Ibranch", h.HELICS_DATA_TYPE_DOUBLE, ""
         )
     
     # TODO to confirm, moved here
@@ -311,8 +328,15 @@ class ParaemtFederate:
                 # save has to be placed after updateIhis to ensure time alignment for recorded
                 #     signals for pseudo co-sim
                 self.emt.save(tn)
-                self.pub_Pinj.publish(float(self.emt.Pinj))
-                self.pub_Qinj.publish(float(self.emt.Qinj))
+                # self.pub_V_net.publish(float(self.emt.Vsol))
+                # h.helicsPublicationPublishDouble(self.pubid[1], self.emt.Vsol[0])
+                self.pub_V_net.publish(float(self.emt.Vsol[0]))
+
+                # Index of branch current
+                # Branch_length=9*len(self.emt.pfd.line_from) # Include only branch current of RL lines
+                # self.pub_I_net.publish(float(np.concatenate((self.emt.brch_Ipre[0:Branch_length:9], self.emt.brch_Ipre[1:Branch_length:9], self.emt.brch_Ipre[2:Branch_length:9]))))
+                self.pub_I_net.publish(float(self.emt.brch_Ipre[0]))
+
                 # self.pub_example.publish(
                 # If possible, use either basic types available like floats, ints, etc, or types provided
                 # by the oedisi.types.data_types module.

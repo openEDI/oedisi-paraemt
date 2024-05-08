@@ -5,17 +5,18 @@
     "publications": [
     {
         "global": true,
-        "key": "test_federate/V_net",   
+        "key": "test_federate/emt_Vsol",   
         "type": "double"
     },
     {
         "global": true,
-        "key": "test_federate/I_net",
+        "key": "test_federate/emt_Ibranch",
         "type": "double"
     }
       ],
 
     "subscriptions": [
-
+        {
+        }
     ]
 }

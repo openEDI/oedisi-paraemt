@@ -1,4 +1,3 @@
-
 import matplotlib.pyplot as plt
 import helics as h
 import logging
@@ -11,7 +10,6 @@ logger.setLevel(logging.DEBUG)
 
 
 def destroy_federate(fed):
-
     # Adding extra time request to clear out any pending messages to avoid
     #   annoying errors in the broker log. Any message are tacitly disregarded.
     grantedtime = h.helicsFederateRequestTime(fed, h.HELICS_TIME_MAXTIME)
@@ -66,8 +64,7 @@ if __name__ == "__main__":
         # Iterating over publications in this case since this example
         #  uses only one charging voltage for all five batteries
 
-        for j in range(0, pub_count):
-
+        for j in range(0, sub_count):
             # Get the applied charging voltage from the EV
             save_term = h.helicsInputGetDouble((subid[j]))
             logger.debug(f"\tReceived voltage {save_term:.2f}" 
@@ -75,7 +72,7 @@ if __name__ == "__main__":
             # Store  for later analysis/graphing
             if subid[j] not in soc:
                 soc[subid[j]] = []
-            soc[subid[j]].append(float(save_term[j]))
+            soc[subid[j]].append(float(save_term))
         # Data collection vectors
         time_sim.append(grantedtime)
 
@@ -92,7 +89,11 @@ if __name__ == "__main__":
 
     axs[0].plot(xaxis, y[0], color="tab:blue", linestyle="-")
     axs[0].set_yticks(np.arange(0, 1.25, 0.5))
-    axs[0].set(ylabel="Batt1")
+    axs[0].set(ylabel="Voltage")
+    axs[0].grid(True)
+
+    axs[0].plot(xaxis, y[1], color="tab:blue", linestyle="-")
+    axs[0].set(ylabel="Current")
     axs[0].grid(True)
 
     plt.xlabel("time (hr)")

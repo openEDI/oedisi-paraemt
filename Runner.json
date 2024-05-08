@@ -3,13 +3,13 @@
     "broker": true,
     "federates": [
       {
-        "directory": "oedisi_template",
+        "directory": ".",
         "exec": "python test_federate.py",
         "host": "localhost",
         "name": "test_federate"
       },
       {
-        "directory": "oedisi_template",
+        "directory": ".",
         "exec": "python save_federate.py",
         "host": "localhost",
         "name": "save_federate"
