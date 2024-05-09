@@ -5,7 +5,7 @@
     "systemN": 6,
     "DSrate": 40,
     "ts": 50e-6,
-    "Tlen": 2,
+    "Tlen": 0.2,
     "use_helics": false,
     "SimMod": 0,
     "save_snapshot": false,

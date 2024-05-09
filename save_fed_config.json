@@ -3,18 +3,17 @@
     "name": "save_federate",
     "period": 0.001,
     "publications": [
-        {
-        }
       ],
 
     "subscriptions": [
     {
         "global": true,
-        "key": "test_federate/emt_Vsol",   
+        "key": "paraemt/emt_Vsol",   
         "type": "double"
     },
     {
-        "key": "test_federate/emt_Ibranch",
+        "global": true,
+        "key": "paraemt/emt_Ibranch",
         "type": "double"
     }
     ]

@@ -15,33 +15,28 @@ def destroy_federate(fed):
     grantedtime = h.helicsFederateRequestTime(fed, h.HELICS_TIME_MAXTIME)
     status = h.helicsFederateDisconnect(fed)
     h.helicsFederateDestroy(fed)
-    logger.info("Federate finalized")
+    logger.info("Federate disconnected")
 
 
 if __name__ == "__main__":
-    total_interval = 1
+    total_interval = 0.1
     ##########  Registering  federate and configuring from JSON################
     fed = h.helicsCreateValueFederateFromConfig("save_fed_config.json")
     federate_name = h.helicsFederateGetName(fed)
-    logger.info(f"Created federate {federate_name}")
-
     sub_count = h.helicsFederateGetInputCount(fed)
-    logger.debug(f"\tNumber of subscriptions: {sub_count}")
     pub_count = h.helicsFederateGetPublicationCount(fed)
-    logger.debug(f"\tNumber of publications: {pub_count}")
     # Diagnostics to confirm JSON config correctly added the required
     #   publications and subscriptions
     subid = {}
     for i in range(0, sub_count):
         subid[i] = h.helicsFederateGetInputByIndex(fed, i)
         sub_name = h.helicsSubscriptionGetTarget(subid[i])
-        logger.debug(f"\tRegistered subscription---> {sub_name}")
-
+        logger.debug(f"Sub {sub_name}")
+        
     pubid = {}
     for i in range(0, pub_count):
         pubid[i] = h.helicsFederateGetPublicationByIndex(fed, i)
         pub_name = h.helicsPublicationGetName(pubid[i])
-        logger.debug(f"\tRegistered publication---> {pub_name}")
 
     ##############  Entering Execution Mode  ##################################
     h.helicsFederateEnterExecutingMode(fed)
@@ -67,8 +62,10 @@ if __name__ == "__main__":
         for j in range(0, sub_count):
             # Get the applied charging voltage from the EV
             save_term = h.helicsInputGetDouble((subid[j]))
-            logger.debug(f"\tReceived voltage {save_term:.2f}" 
-                        f" from input {h.helicsSubscriptionGetTarget(subid[j])}")
+            # save_term = h.helicsInputGetTarget((subid[j]))
+            logger.debug(f"save term {save_term:.2f}")
+            # logger.debug(f"\tReceived voltage {save_term:.2f}" 
+            #             f" from input {h.helicsSubscriptionGetTarget(subid[j])}")
             # Store  for later analysis/graphing
             if subid[j] not in soc:
                 soc[subid[j]] = []
@@ -84,17 +81,17 @@ if __name__ == "__main__":
     for key in soc:
         y.append(np.array(soc[key]))
 
-    fig, axs = plt.subplots(5, sharex=True, sharey=True)
-    fig.suptitle("SOC of each EV Battery")
+    fig, axs = plt.subplots(2, sharex=True, sharey=True)
+    fig.suptitle("V and I")
 
     axs[0].plot(xaxis, y[0], color="tab:blue", linestyle="-")
-    axs[0].set_yticks(np.arange(0, 1.25, 0.5))
+    # axs[0].set_yticks(np.arange(0, 1.25, 0.5))
     axs[0].set(ylabel="Voltage")
     axs[0].grid(True)
 
-    axs[0].plot(xaxis, y[1], color="tab:blue", linestyle="-")
-    axs[0].set(ylabel="Current")
-    axs[0].grid(True)
+    axs[1].plot(xaxis, y[1], color="tab:blue", linestyle="-")
+    axs[1].set(ylabel="Current")
+    axs[1].grid(True)
 
     plt.xlabel("time (hr)")
     plt.savefig("fundamental_default_battery_SOCs.png", format="png")
