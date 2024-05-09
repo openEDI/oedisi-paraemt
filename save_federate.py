@@ -19,7 +19,7 @@ def destroy_federate(fed):
 
 
 if __name__ == "__main__":
-    total_interval = 0.1
+    total_interval = 0.2
     ##########  Registering  federate and configuring from JSON################
     fed = h.helicsCreateValueFederateFromConfig("save_fed_config.json")
     federate_name = h.helicsFederateGetName(fed)
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         subid[i] = h.helicsFederateGetInputByIndex(fed, i)
         sub_name = h.helicsSubscriptionGetTarget(subid[i])
         logger.debug(f"Sub {sub_name}")
-        
+
     pubid = {}
     for i in range(0, pub_count):
         pubid[i] = h.helicsFederateGetPublicationByIndex(fed, i)
@@ -48,17 +48,21 @@ if __name__ == "__main__":
     time_sim = []
     total_current = []
     soc = {}
+
+    # import pdb
+    # pdb.set_trace()
     # As long as granted time is in the time range to be simulated...
     while grantedtime < total_interval:
         # Time request for the next physical interval to be simulated
         requested_time = grantedtime + update_interval
         logger.debug(f"Requesting time {requested_time}")
-        grantedtime = h.helicsFederateRequestTime(fed, requested_time)
+        # grantedtime = h.helicsFederateRequestTime(fed, requested_time)
+        grantedtime = h.helicsFederateRequestTime(fed, h.HELICS_TIME_MAXTIME)
         logger.debug(f"Granted time {grantedtime}")
 
         # Iterating over publications in this case since this example
         #  uses only one charging voltage for all five batteries
-
+   
         for j in range(0, sub_count):
             # Get the applied charging voltage from the EV
             save_term = h.helicsInputGetDouble((subid[j]))
@@ -70,6 +74,9 @@ if __name__ == "__main__":
             if subid[j] not in soc:
                 soc[subid[j]] = []
             soc[subid[j]].append(float(save_term))
+
+            # import pdb
+            # pdb.set_trace()
         # Data collection vectors
         time_sim.append(grantedtime)
 
@@ -85,7 +92,8 @@ if __name__ == "__main__":
     fig.suptitle("V and I")
 
     axs[0].plot(xaxis, y[0], color="tab:blue", linestyle="-")
-    # axs[0].set_yticks(np.arange(0, 1.25, 0.5))
+    # axs[0].set_yticks(np.arange(0, 0.1, 0.01))
+    # axs[0].set_ylim(0, 0.1)
     axs[0].set(ylabel="Voltage")
     axs[0].grid(True)
 
