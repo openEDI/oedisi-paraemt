@@ -137,10 +137,10 @@ class ParaemtFederate:
 
         # This should match the dynamic output in component_definition.json
         self.pub_V_net = self.vfed.register_publication(
-            "emt_Vsol", h.HELICS_DATA_TYPE_DOUBLE, "" # TODO h.HELICS_DATA_TYPE_VECTOR
+            "emt_Vsol", h.HELICS_DATA_TYPE_VECTOR, "" # TODO h.HELICS_DATA_TYPE_VECTOR
         )
         self.pub_I_net = self.vfed.register_publication(
-            "emt_Ibranch", h.HELICS_DATA_TYPE_DOUBLE, ""
+            "emt_Ibranch", h.HELICS_DATA_TYPE_VECTOR, ""
         )
     
     # TODO to confirm, moved here
@@ -330,12 +330,13 @@ class ParaemtFederate:
                 self.emt.save(tn)
                 # self.pub_V_net.publish(float(self.emt.Vsol))
                 # h.helicsPublicationPublishDouble(self.pubid[1], self.emt.Vsol[0])
-                self.pub_V_net.publish(float(self.emt.Vsol[0]))
+                print(self.emt.Vsol[0:2].tolist()) # convert to list
+                self.pub_V_net.publish(self.emt.Vsol[0:2].tolist())
 
                 # Index of branch current
                 # Branch_length=9*len(self.emt.pfd.line_from) # Include only branch current of RL lines
                 # self.pub_I_net.publish(float(np.concatenate((self.emt.brch_Ipre[0:Branch_length:9], self.emt.brch_Ipre[1:Branch_length:9], self.emt.brch_Ipre[2:Branch_length:9]))))
-                self.pub_I_net.publish(float(self.emt.brch_Ipre[0]))
+                self.pub_I_net.publish(self.emt.brch_Ipre[0:2].tolist())
 
                 # self.pub_example.publish(
                 # If possible, use either basic types available like floats, ints, etc, or types provided
@@ -378,7 +379,7 @@ class ParaemtFederate:
             df_v = pd.DataFrame(self.emt.v).T
             df_v.to_csv("paraemt.emt_v.csv")
             df_ibran = pd.DataFrame(self.emt.i_branch).T
-            df_ibran.to_csv("paraemt_ibranch.csv")
+            df_ibran.to_csv("paraemt.emt_ibranch.csv")
             # df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
             # df_x.to_csv("paraemt.emt_x.csv")
             # df_ibr = pd.DataFrame(self.emt.x_ibr).T

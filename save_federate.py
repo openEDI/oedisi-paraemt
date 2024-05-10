@@ -50,8 +50,6 @@ if __name__ == "__main__":
     total_current = []
     soc = {}
 
-    # import pdb
-    # pdb.set_trace()
     # As long as granted time is in the time range to be simulated...
     while grantedtime < total_interval:
         # Time request for the next physical interval to be simulated
@@ -66,15 +64,17 @@ if __name__ == "__main__":
    
         for j in range(0, sub_count):
             # Get the applied charging voltage from the EV
-            save_term = h.helicsInputGetDouble((subid[j]))
+            # save_term = h.helicsInputGetDouble((subid[j]))
+            save_term = h.helicsInputGetVector((subid[j]))
+            print(save_term)
             # save_term = h.helicsInputGetTarget((subid[j]))
-            logger.debug(f"save term {save_term:.2f}")
+            logger.debug(f"save term {save_term[0]:.2f}")
             # logger.debug(f"\tReceived voltage {save_term:.2f}" 
             #             f" from input {h.helicsSubscriptionGetTarget(subid[j])}")
             # Store  for later analysis/graphing
             if subid[j] not in soc:
                 soc[subid[j]] = []
-            soc[subid[j]].append(float(save_term))
+            soc[subid[j]].append(save_term)
 
             # import pdb
             # pdb.set_trace()
@@ -89,8 +89,13 @@ if __name__ == "__main__":
     for key in soc:
         y.append(np.array(soc[key]))
 
+    import pdb
+    pdb.set_trace()
+    
     df_v = pd.DataFrame(y).T
-    df_v.to_csv("Saved_data.csv")
+    df_v.to_csv("HELICS_Saved_data.csv")
+
+
         
     # fig, axs = plt.subplots(2, sharex=True, sharey=True)
     fig, axs = plt.subplots(2, sharex=True, sharey=False)

@@ -9,12 +9,12 @@
     {
         "global": true,
         "key": "paraemt/emt_Vsol",   
-        "type": "double"
+        "type": "vector"
     },
     {
         "global": true,
         "key": "paraemt/emt_Ibranch",
-        "type": "double"
+        "type": "vector"
     }
     ]
 }
