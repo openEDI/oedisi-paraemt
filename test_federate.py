@@ -377,6 +377,8 @@ class ParaemtFederate:
             print("Saving results...")
             df_v = pd.DataFrame(self.emt.v).T
             df_v.to_csv("paraemt.emt_v.csv")
+            df_ibran = pd.DataFrame(self.emt.i_branch).T
+            df_ibran.to_csv("paraemt_ibranch.csv")
             df_x = pd.DataFrame(self.emt.x).T
             df_x.to_csv("paraemt.emt_x.csv")
             df_ibr = pd.DataFrame(self.emt.x_ibr).T
