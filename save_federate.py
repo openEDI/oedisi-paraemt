@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import helics as h
 import logging
 import numpy as np
+import pandas as pd
 
 
 logger = logging.getLogger(__name__)
@@ -88,19 +89,26 @@ if __name__ == "__main__":
     for key in soc:
         y.append(np.array(soc[key]))
 
-    fig, axs = plt.subplots(2, sharex=True, sharey=True)
+    df_v = pd.DataFrame(y).T
+    df_v.to_csv("Saved_data.csv")
+        
+    # fig, axs = plt.subplots(2, sharex=True, sharey=True)
+    fig, axs = plt.subplots(2, sharex=True, sharey=False)
     fig.suptitle("V and I")
 
     axs[0].plot(xaxis, y[0], color="tab:blue", linestyle="-")
-    # axs[0].set_yticks(np.arange(0, 0.1, 0.01))
-    # axs[0].set_ylim(0, 0.1)
+    axs[0].set_yticks(np.arange(-1.5, 1.5, 0.5))
+    axs[0].set_ylim(-1.5, 1.5)
     axs[0].set(ylabel="Voltage")
     axs[0].grid(True)
 
-    axs[1].plot(xaxis, y[1], color="tab:blue", linestyle="-")
+    axs[1].plot(xaxis, y[1], color="tab:green", linestyle="-")
+    axs[1].set_yticks(np.arange(-8, 8, 2))
+    axs[1].set_xticks(np.arange(0, 0.2, 0.02))
+    axs[1].set_ylim(-8, 8)
     axs[1].set(ylabel="Current")
     axs[1].grid(True)
 
-    plt.xlabel("time (hr)")
+    plt.xlabel("time (s)")
     plt.savefig("ParaEMT_Voltage_Current.png", format="png")
     plt.show()
