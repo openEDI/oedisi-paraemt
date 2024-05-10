@@ -3,7 +3,7 @@
     "pfd_file": "cases\\pfd_2area_1_1.json",
     "dyd_file": "models\\2area_psse\\Benchmark_twoarea_test.xls",
     "systemN": 6,
-    "DSrate": 40,
+    "DSrate": 2,
     "ts": 50e-6,
     "Tlen": 0.2,
     "use_helics": false,

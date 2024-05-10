@@ -1,7 +1,7 @@
 
 {
     "name": "save_federate",
-    "period": 0.002,
+    "period": 0.0001,
     "publications": [
       ],
 

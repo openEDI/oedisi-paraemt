@@ -137,7 +137,7 @@ class ParaemtFederate:
 
         # This should match the dynamic output in component_definition.json
         self.pub_V_net = self.vfed.register_publication(
-            "emt_Vsol", h.HELICS_DATA_TYPE_DOUBLE, ""
+            "emt_Vsol", h.HELICS_DATA_TYPE_DOUBLE, "" # TODO h.HELICS_DATA_TYPE_VECTOR
         )
         self.pub_I_net = self.vfed.register_publication(
             "emt_Ibranch", h.HELICS_DATA_TYPE_DOUBLE, ""

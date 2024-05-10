@@ -102,5 +102,5 @@ if __name__ == "__main__":
     axs[1].grid(True)
 
     plt.xlabel("time (hr)")
-    plt.savefig("fundamental_default_battery_SOCs.png", format="png")
+    plt.savefig("ParaEMT_Voltage_Current.png", format="png")
     plt.show()
