@@ -66,9 +66,9 @@ if __name__ == "__main__":
             # Get the applied charging voltage from the EV
             # save_term = h.helicsInputGetDouble((subid[j]))
             save_term = h.helicsInputGetVector((subid[j]))
-            print(save_term)
+            # print(save_term)
             # save_term = h.helicsInputGetTarget((subid[j]))
-            logger.debug(f"save term {save_term[0]:.2f}")
+            # logger.debug(f"save term {save_term[0]:.2f}")
             # logger.debug(f"\tReceived voltage {save_term:.2f}" 
             #             f" from input {h.helicsSubscriptionGetTarget(subid[j])}")
             # Store  for later analysis/graphing
@@ -88,29 +88,38 @@ if __name__ == "__main__":
     y = []
     for key in soc:
         y.append(np.array(soc[key]))
-
-    import pdb
-    pdb.set_trace()
     
-    df_v = pd.DataFrame(y).T
-    df_v.to_csv("HELICS_Saved_data.csv")
+    for i, data_array in enumerate(y):
+        df_data = pd.DataFrame(data_array)
+        df_data.to_csv(f"HELICS_Saved_data_{i}.csv", index=False)
 
+    voltage_term=np.array(y[0])
+    current_term=np.array(y[1])
 
-        
-    # fig, axs = plt.subplots(2, sharex=True, sharey=True)
     fig, axs = plt.subplots(2, sharex=True, sharey=False)
     fig.suptitle("V and I")
-
-    axs[0].plot(xaxis, y[0], color="tab:blue", linestyle="-")
+    bus_num=int(voltage_term.shape[1]/3)
+    print(bus_num)
+    bus_idx=1
+    axs[0].plot(xaxis, voltage_term[:,bus_idx], color="tab:red", linestyle="-")
+    axs[0].plot(xaxis, voltage_term[:,bus_idx+bus_num], color="tab:green", linestyle="-")
+    axs[0].plot(xaxis, voltage_term[:,bus_idx+2*bus_num], color="tab:blue", linestyle="-")
     axs[0].set_yticks(np.arange(-1.5, 1.5, 0.5))
+    axs[0].set_xlim(0, time_sim[-1])
     axs[0].set_ylim(-1.5, 1.5)
     axs[0].set(ylabel="Voltage")
     axs[0].grid(True)
 
-    axs[1].plot(xaxis, y[1], color="tab:green", linestyle="-")
-    axs[1].set_yticks(np.arange(-8, 8, 2))
+    bran_num=int(current_term.shape[1]/3)
+    print(bran_num)
+    bran_idx=2
+    axs[1].plot(xaxis, current_term[:,0+9*(bran_idx-1)], color="tab:red", linestyle="-")
+    axs[1].plot(xaxis, current_term[:,1+9*(bran_idx-1)], color="tab:green", linestyle="-")
+    axs[1].plot(xaxis, current_term[:,2+9*(bran_idx-1)], color="tab:blue", linestyle="-")
+    # axs[1].set_yticks(np.arange(-8, 8, 2))
     axs[1].set_xticks(np.arange(0, 0.2, 0.02))
-    axs[1].set_ylim(-8, 8)
+    axs[0].set_xlim(0, time_sim[-1])
+    axs[1].set_ylim(-15, 15)
     axs[1].set(ylabel="Current")
     axs[1].grid(True)
 

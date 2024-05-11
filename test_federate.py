@@ -95,27 +95,6 @@ class ParaemtFederate:
         """
         self.emt = self.initialize_emt(config)
 
-        # Create HELICS Federate object that describes the federate properties
-        # fed = h.helicsCreateValueFederateFromConfig("test_fed_config.json")
-        # federate_name = h.helicsFederateGetName(fed)
-        # logger.info(f"Created federate {federate_name}")
-        # sub_count = h.helicsFederateGetInputCount(fed)
-        # logger.debug(f"\tNumber of subscriptions: {sub_count}")
-        # pub_count = h.helicsFederateGetPublicationCount(fed)
-        # logger.debug(f"\tNumber of publications: {pub_count}")
-        # # Diagnostics to confirm JSON config correctly added the required
-        # #   publications and subscriptions
-        # subid = {}
-        # for i in range(0, sub_count):
-        #     subid[i] = h.helicsFederateGetInputByIndex(fed, i)
-        #     sub_name = h.helicsSubscriptionGetTarget(subid[i])
-        #     logger.debug(f"\tRegistered subscription---> {sub_name}")
-        # self.pubid = {}
-        # for i in range(0, pub_count):
-        #     self.pubid[i] = h.helicsFederateGetPublicationByIndex(fed, i)
-        #     pub_name = h.helicsPublicationGetName(self.pubid[i])
-        #     logger.debug(f"\tRegistered publication---> {pub_name}")
-
         fedinfo = h.helicsCreateFederateInfo()
         fedinfo.core_name = config.name  # Sets HELICS name
         fedinfo.core_type = (
@@ -124,14 +103,12 @@ class ParaemtFederate:
         fedinfo.core_init = "--federates=1"
         h.helicsFederateInfoSetBroker(fedinfo, broker_config.broker_ip)
         h.helicsFederateInfoSetBrokerPort(fedinfo, broker_config.broker_port)
-
         # Maximum time resolution. Time unit may depend on simulation type.
         h.helicsFederateInfoSetTimeProperty(
             fedinfo,
             h.helics_property_time_delta,
             config.DSrate * config.ts,  # 10 microseconds
         )
-
         self.vfed = h.helicsCreateValueFederate(config.name, fedinfo)
         logger.info("Value federate created")
 
@@ -144,7 +121,6 @@ class ParaemtFederate:
         )
     
     # TODO to confirm, moved here
-    # def initialize_emt(config: ParaemtConfig):
     def initialize_emt(self, config): # TODO to confirm, Min added self
         # ==========================================================================
         # Read the JOSON configuuration of EMT simulation
@@ -328,15 +304,11 @@ class ParaemtFederate:
                 # save has to be placed after updateIhis to ensure time alignment for recorded
                 #     signals for pseudo co-sim
                 self.emt.save(tn)
-                # self.pub_V_net.publish(float(self.emt.Vsol))
-                # h.helicsPublicationPublishDouble(self.pubid[1], self.emt.Vsol[0])
                 print(self.emt.Vsol[0:2].tolist()) # convert to list
-                self.pub_V_net.publish(self.emt.Vsol[0:2].tolist())
+                self.pub_V_net.publish(self.emt.Vsol.tolist())
 
                 # Index of branch current
-                # Branch_length=9*len(self.emt.pfd.line_from) # Include only branch current of RL lines
-                # self.pub_I_net.publish(float(np.concatenate((self.emt.brch_Ipre[0:Branch_length:9], self.emt.brch_Ipre[1:Branch_length:9], self.emt.brch_Ipre[2:Branch_length:9]))))
-                self.pub_I_net.publish(self.emt.brch_Ipre[0:2].tolist())
+                self.pub_I_net.publish(self.emt.brch_Ipre.tolist())
 
                 # self.pub_example.publish(
                 # If possible, use either basic types available like floats, ints, etc, or types provided
