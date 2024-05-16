@@ -100,7 +100,7 @@ if __name__ == "__main__":
     fig.suptitle("V and I")
     bus_num=int(voltage_term.shape[1]/3)
     print(bus_num)
-    bus_idx=1
+    bus_idx=1  # Choose bus index
     axs[0].plot(xaxis, voltage_term[:,bus_idx], color="tab:red", linestyle="-")
     axs[0].plot(xaxis, voltage_term[:,bus_idx+bus_num], color="tab:green", linestyle="-")
     axs[0].plot(xaxis, voltage_term[:,bus_idx+2*bus_num], color="tab:blue", linestyle="-")
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 
     bran_num=int(current_term.shape[1]/3)
     print(bran_num)
-    bran_idx=2
+    bran_idx=2  # Choose branch index
     axs[1].plot(xaxis, current_term[:,0+9*(bran_idx-1)], color="tab:red", linestyle="-")
     axs[1].plot(xaxis, current_term[:,1+9*(bran_idx-1)], color="tab:green", linestyle="-")
     axs[1].plot(xaxis, current_term[:,2+9*(bran_idx-1)], color="tab:blue", linestyle="-")
