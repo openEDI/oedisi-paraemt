@@ -19,7 +19,7 @@ jobs:
     - name: Install python dependencies
       shell: bash -l {0}
       run: |
-        pip install pandas oedisi matplotlib numpy helics helics_apps xlrd
+        pip install pandas oedisi matplotlib numpy helics helics_apps xlrd numba pydantic scipy
     - name: Run paraemt federate
       shell: bash -l {0}
       run: |
