@@ -19,21 +19,21 @@ from paraemt.Python_C_DLL_wrapper import wrap_function, MODELINSTANCE, MODELINFO
 
 shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"
 # EPRI's IBR model
-add_lib = CDLL(shared_lib_path)  # Min
-Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
-Model_Outputs = wrap_function(add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)])
+#add_lib = CDLL(shared_lib_path)  # Min
+#Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
+#Model_Outputs = wrap_function(add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)])
 
-info = Model_GetInfo()
-num_in_ports, num_out_ports, num_param = (
-    info.contents.cNumInputPorts,
-    info.contents.cNumOutputPorts,
-    info.contents.cNumParameters,
-)
-num_int_states, num_float_states, num_double_states = (
-    info.contents.cNumIntStates,
-    info.contents.cNumFloatStates,
-    info.contents.cNumDoubleStates,
-)
+#info = Model_GetInfo()
+#num_in_ports, num_out_ports, num_param = (
+#    info.contents.cNumInputPorts,
+#    info.contents.cNumOutputPorts,
+#    info.contents.cNumParameters,
+#)
+#num_int_states, num_float_states, num_double_states = (
+#    info.contents.cNumIntStates,
+#    info.contents.cNumFloatStates,
+#    info.contents.cNumDoubleStates,
+#)
 
 import pandas as pd
 
@@ -759,7 +759,7 @@ class EmtSimu:
         self.node_Ihis = ini.Init_node_Ihis.copy()
         term=self.brch_Ipre.copy()
         term2=9*len(pfd.line_from)
-        self.i_branch[0]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))  
+        self.i_branch[0]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))
 
         self.brch_range = np.array([0, len(self.brch_Ihis)]).reshape(2, 1)
         self.brch_counts = np.array([self.brch_range.size])
@@ -1789,8 +1789,8 @@ class EmtSimu:
         # Save branch crrent
         term=self.brch_Ipre.copy()
         term2=9*len(self.pfd.line_from)
-        self.i_branch[self.save_idx]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))  
-        
+        self.i_branch[self.save_idx]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))
+
         # Save generator state
         if self.ngen > 0:
             self.x[self.save_idx] = self.x_pv_1
