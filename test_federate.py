@@ -24,7 +24,7 @@ class ParaemtConfig(BaseModel):
     # Configuration in JSON format
     pfd_file: str
     dyd_file: str
-    systemN: int 
+    systemN: int
     SimMod: int  # 0 - Standard Initialization, 1 - Initialize from Snapshot
     save_snapshot: bool  # Save snapshot at end of run or not
     save_snapshot_mode: (
@@ -119,29 +119,29 @@ class ParaemtFederate:
         self.pub_I_net = self.vfed.register_publication(
             "emt_Ibranch", h.HELICS_DATA_TYPE_VECTOR, ""
         )
-    
+
     # TODO to confirm, moved here
     def initialize_emt(self, config): # TODO to confirm, Min added self
         # ==========================================================================
         # Read the JOSON configuuration of EMT simulation
         # ParaEMT initialization
-        shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"  # EPRI's IBR model
-        add_lib = CDLL(shared_lib_path)
-        Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
-        Model_Outputs = wrap_function(
-            add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)]
-        )
-        info = Model_GetInfo()
-        num_in_ports, num_out_ports, num_param = (
-            info.contents.cNumInputPorts,
-            info.contents.cNumOutputPorts,
-            info.contents.cNumParameters,
-        )
-        num_int_states, num_float_states, num_double_states = (
-            info.contents.cNumIntStates,
-            info.contents.cNumFloatStates,
-            info.contents.cNumDoubleStates,
-        )
+        #shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"  # EPRI's IBR model
+        #add_lib = CDLL(shared_lib_path)
+        #Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
+        #Model_Outputs = wrap_function(
+        #    add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)]
+        #)
+        #info = Model_GetInfo()
+        #num_in_ports, num_out_ports, num_param = (
+        #    info.contents.cNumInputPorts,
+        #    info.contents.cNumOutputPorts,
+        #    info.contents.cNumParameters,
+        #)
+        #num_int_states, num_float_states, num_double_states = (
+        #    info.contents.cNumIntStates,
+        #    info.contents.cNumFloatStates,
+        #    info.contents.cNumDoubleStates,
+        #)
 
         sim_info = """
         ---- Sim Info ----
@@ -245,7 +245,7 @@ class ParaemtFederate:
             tn += 1
             if config.show_progress:  # Print the simulation progress
                 if tn > 1:
-                    if np.mod(tn, 200) == 0: 
+                    if np.mod(tn, 200) == 0:
                         # logger.info("start time: " + str(datetime.now()))  # TODO, confirm, move here okay? necessary?
                         print("%.4f" % self.emt.t[-1])
             tl_0 = time.time()
@@ -254,7 +254,7 @@ class ParaemtFederate:
             if (config.flag_gentrip == 0 and config.flag_reinit == 1):  # If the generator is tripped
                 flag_reini = 1
             # TODO, add fault code here in future
-            self.emt.Ginv = self.emt.ini.Init_net_G0  
+            self.emt.Ginv = self.emt.ini.Init_net_G0
             self.emt.net_coe = self.emt.ini.Init_net_coe0
             self.emt.Glu = self.emt.ini.Init_net_G0_lu
 
@@ -456,7 +456,7 @@ class ParaemtFederate:
 def run_simulator(broker_config: BrokerConfig):
     """Creates and runs HELICS simulation."""
 
-    # Static inputs are always defined in a static_inputs.json   
+    # Static inputs are always defined in a static_inputs.json
     with open("static_config.json") as f:  # Original code: with open("static_inputs.json") as f:
         config = ParaemtConfig(**json.load(f))
 
