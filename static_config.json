@@ -35,5 +35,15 @@
     "t_gentrip": 1000,
     "i_gentrip": 1,
     "flag_gentrip": 1,
-    "flag_reinit": 1
+    "flag_reinit": 1,
+
+    "busfault_t": 1000,
+    "fault_bus_idx": 6, 
+    "busfault_tlen": 0.08333333,
+    "busfault_type": 11 ,
+    "busfault_r": [0.00001, 0.00001, 0.00001, 0.00001, 0.00001, 0.00001],
+    "add_line_num": 0,
+    "fault_tripline" : 1,
+    "fault_line_idx" : 2,
+    "bus_del_ind":[]
 }

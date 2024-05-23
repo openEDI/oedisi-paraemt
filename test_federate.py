@@ -4,6 +4,7 @@ import os
 import time
 import json
 import logging
+from paraemt.psutils import initialize_bus_fault
 from paraemt.serial_emtsimu import SerialEmtSimu
 from datetime import datetime
 
@@ -65,14 +66,15 @@ class ParaemtConfig(BaseModel):
     flag_gentrip: int
     flag_reinit: int
 
-    # line fault
-    # fault_t = 1000.0
-    # fault_line_idx = 0
-    # fault_tlen = 5/60 # 5 cycles
-    # fault_dist = 0.01 # percntage
-    # fault_type = 11
-    # fault_r = [30, 30, 30, 0.001, 0.001, 0.001]
-    # fault_tripline = 0
+    busfault_t = float
+    fault_bus_idx = int 
+    busfault_tlen = float 
+    busfault_type = int 
+    busfault_r = list[float]
+    add_line_num = int
+    fault_tripline = int
+    fault_line_idx = int
+    bus_del_ind=list[int]  
 
 class ParaemtFederate:
     def __init__(
@@ -208,6 +210,19 @@ class ParaemtFederate:
         self.emt.flag_reinit = config.flag_reinit
         self.emt.t_release_f = config.t_release_f
         self.emt.loadmodel_option = config.loadmodel_option
+
+        # Bus fault
+        self.emt.busfault_t = config.busfault_t
+        self.emt.fault_bus_idx = config.fault_bus_idx
+        self.emt.busfault_tlen = config.busfault_tlen
+        self.emt.busfault_type = config.busfault_type
+        self.emt.busfault_r = config.busfault_r
+        self.emt.add_line_num= config.add_line_num
+        self.emt.fault_tripline = config.fault_tripline
+        self.emt.fault_line_idx = config.fault_line_idx
+        self.emt.bus_del_ind=config.bus_del_ind
+        if self.emt.busfault_t > 0.0 and self.emt.busfault_t < self.emt.Tlen:
+            initialize_bus_fault(self.emt, config.netMod)
         return self.emt
 
     def run(self, config):
@@ -254,6 +269,37 @@ class ParaemtFederate:
             if (config.flag_gentrip == 0 and config.flag_reinit == 1):  # If the generator is tripped
                 flag_reini = 1
             # TODO, add fault code here in future
+
+            if tn*ts < self.fault_t:
+                self.emt.Ginv = self.emt.ini.Init_net_G0
+                self.emt.net_coe = self.emt.ini.Init_net_coe0
+                self.emt.Glu = self.emt.ini.Init_net_G0_lu
+                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # 
+            elif (tn*ts >= self.fault_t) and (tn*ts < self.fault_t+self.fault_tlen):
+                self.emt.Ginv = self.emt.ini.Init_net_G1
+                self.emt.net_coe = self.emt.ini.Init_net_coe1
+                self.emt.Glu = self.emt.ini.Init_net_G1_lu
+                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # Min, consider new lines under fault
+                if cap_line==1: # do it only once
+                    self.brch_Ipre= np.append(self.brch_Ipre,np.zeros(self.add_line_num)) # added line, Ipre=0
+                    self.brch_Ihis= np.append(self.brch_Ihis,np.zeros(self.add_line_num))
+                    cap_line=0
+            else:
+                self.emt.Ginv = self.emt.ini.Init_net_G2
+                self.emt.net_coe = self.emt.ini.Init_net_coe2
+                self.emt.Glu = self.emt.ini.Init_net_G2_lu
+                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # Min
+                if cap_line==0: # do it only once
+                    if self.emt.fault_tripline == 0:
+                        self.emt.brch_Ipre=self.brch_Ipre[:-self.add_line_num]
+                        self.emt.brch_Ihis=self.brch_Ihis[:-self.add_line_num] # delete those added lines
+                    if self.emt.fault_tripline == 1:  
+                        self.emt.brch_Ipre=self.brch_Ipre[:-self.add_line_num]
+                        self.emt.brch_Ihis=self.brch_Ihis[:-self.add_line_num] # delete those added lines
+                        self.emt.brch_Ipre=np.delete(self.brch_Ipre, self.bus_del_ind, 0) # 0 delete row
+                        self.emt.brch_Ihis=np.delete(self.brch_Ihis, self.bus_del_ind, 0) # Delete those related to tripped lines, to match the index in update Ihis                 
+                    cap_line=1
+
             self.emt.Ginv = self.emt.ini.Init_net_G0  
             self.emt.net_coe = self.emt.ini.Init_net_coe0
             self.emt.Glu = self.emt.ini.Init_net_G0_lu

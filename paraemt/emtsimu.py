@@ -215,6 +215,16 @@ class EmtSimu:
         self.fault_tripline = (
             0  # 0 - no line tripping, 1 - line tripped upon fault clearance
         )
+        # Bus fault
+        self.busfault_t = 1
+        self.fault_bus_idx = 2
+        self.busfault_tlen = 5/60 # 5 cycles
+        self.busfault_type = 1 # Check psutils for fault types
+        self.busfault_r = [0.001, 0.001, 0.001, 0.001, 0.001, 0.001]
+        self.add_line_num=0
+        self.fault_line_idx = 0
+        self.fault_tripline = 0
+        self.bus_del_ind=[]  #bus delete index
 
         # ref at last time step (for calculating dref term)
         self.vref = np.zeros(ngen)
