@@ -65,16 +65,15 @@ class ParaemtConfig(BaseModel):
     i_gentrip: int  # 13: 1431-N, 15: 2032 G
     flag_gentrip: int
     flag_reinit: int
-
-    busfault_t = float
-    fault_bus_idx = int 
-    busfault_tlen = float 
-    busfault_type = int 
-    busfault_r = list[float]
-    add_line_num = int
-    fault_tripline = int
-    fault_line_idx = int
-    bus_del_ind=list[int]  
+    busfault_t: float
+    fault_bus_idx: int 
+    busfault_tlen: float 
+    busfault_type: int 
+    busfault_r: list[float]
+    add_line_num: int
+    fault_tripline: int
+    fault_line_idx: int
+    bus_del_ind: list[int] 
 
 class ParaemtFederate:
     def __init__(
@@ -253,6 +252,7 @@ class ParaemtFederate:
         Nsteps = 0
         ts = config.ts
         t1 = time.time()
+        cap_line=1
         while tn * ts < config.Tlen:
             # logger.info("start time: " + str(datetime.now()))
             # ==========================================================================
@@ -270,34 +270,34 @@ class ParaemtFederate:
                 flag_reini = 1
             # TODO, add fault code here in future
 
-            if tn*ts < self.fault_t:
+            if tn*ts < self.emt.busfault_t:
                 self.emt.Ginv = self.emt.ini.Init_net_G0
                 self.emt.net_coe = self.emt.ini.Init_net_coe0
                 self.emt.Glu = self.emt.ini.Init_net_G0_lu
-                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # 
-            elif (tn*ts >= self.fault_t) and (tn*ts < self.fault_t+self.fault_tlen):
+                self.emt.brch_range = np.array([0,len(self.emt.net_coe)]).reshape(2,1) # 
+            elif (tn*ts >= self.emt.busfault_t) and (tn*ts < self.emt.busfault_t+self.emt.fault_tlen):
                 self.emt.Ginv = self.emt.ini.Init_net_G1
                 self.emt.net_coe = self.emt.ini.Init_net_coe1
                 self.emt.Glu = self.emt.ini.Init_net_G1_lu
-                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # Min, consider new lines under fault
+                self.emt.brch_range = np.array([0,len(self.emt.net_coe)]).reshape(2,1) # Min, consider new lines under fault
                 if cap_line==1: # do it only once
-                    self.brch_Ipre= np.append(self.brch_Ipre,np.zeros(self.add_line_num)) # added line, Ipre=0
-                    self.brch_Ihis= np.append(self.brch_Ihis,np.zeros(self.add_line_num))
+                    self.emt.brch_Ipre= np.append(self.emt.brch_Ipre,np.zeros(self.emt.add_line_num)) # added line, Ipre=0
+                    self.emt.brch_Ihis= np.append(self.emt.brch_Ihis,np.zeros(self.emt.add_line_num))
                     cap_line=0
             else:
                 self.emt.Ginv = self.emt.ini.Init_net_G2
                 self.emt.net_coe = self.emt.ini.Init_net_coe2
                 self.emt.Glu = self.emt.ini.Init_net_G2_lu
-                self.emt.brch_range = np.array([0,len(self.net_coe)]).reshape(2,1) # Min
-                if cap_line==0: # do it only once
+                self.emt.brch_range = np.array([0,len(self.emt.net_coe)]).reshape(2,1) # Min
+                if cap_line==0: # do it only once 
                     if self.emt.fault_tripline == 0:
-                        self.emt.brch_Ipre=self.brch_Ipre[:-self.add_line_num]
-                        self.emt.brch_Ihis=self.brch_Ihis[:-self.add_line_num] # delete those added lines
+                        self.emt.brch_Ipre=self.emt.brch_Ipre[:-self.emt.add_line_num]
+                        self.emt.brch_Ihis=self.emt.brch_Ihis[:-self.emt.add_line_num] # delete those added lines
                     if self.emt.fault_tripline == 1:  
-                        self.emt.brch_Ipre=self.brch_Ipre[:-self.add_line_num]
-                        self.emt.brch_Ihis=self.brch_Ihis[:-self.add_line_num] # delete those added lines
-                        self.emt.brch_Ipre=np.delete(self.brch_Ipre, self.bus_del_ind, 0) # 0 delete row
-                        self.emt.brch_Ihis=np.delete(self.brch_Ihis, self.bus_del_ind, 0) # Delete those related to tripped lines, to match the index in update Ihis                 
+                        self.emt.brch_Ipre=self.emt.brch_Ipre[:-self.emt.add_line_num]
+                        self.emt.brch_Ihis=self.emt.brch_Ihis[:-self.emt.add_line_num] # delete those added lines
+                        self.emt.brch_Ipre=np.delete(self.emt.brch_Ipre, self.emt.bus_del_ind, 0) # 0 delete row
+                        self.emt.brch_Ihis=np.delete(self.emt.brch_Ihis, self.emt.bus_del_ind, 0) # Delete those related to tripped lines, to match the index in update Ihis                 
                     cap_line=1
 
             self.emt.Ginv = self.emt.ini.Init_net_G0  
@@ -350,7 +350,7 @@ class ParaemtFederate:
                 # save has to be placed after updateIhis to ensure time alignment for recorded
                 #     signals for pseudo co-sim
                 self.emt.save(tn)
-                print(self.emt.Vsol[0:2].tolist()) # convert to list
+                # print(self.emt.Vsol[0:2].tolist()) # convert to list
                 self.pub_V_net.publish(self.emt.Vsol.tolist())
 
                 # Index of branch current
