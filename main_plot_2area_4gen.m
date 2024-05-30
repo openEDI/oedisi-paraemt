@@ -102,7 +102,7 @@ st = 1;
 bus_V3 =  table2array(dataV3phase(2:end,st+1:end));
 
 %% Current
-branch_k=2; st = 1;  fault_t=0.1+5/60;  fault_tripline = 3;  
+branch_k=7; st = 1;  fault_t=0.1+5/60;                   fault_tripline = 3;  
 branch_I3 =  table2array(dataI3phase(2:end,st+1:end));
 k=branch_k;
 Bran_num=size(branch_I3)/3; Bran_num=Bran_num(2);
@@ -185,7 +185,7 @@ title('Pm GAST')
 %% Bus Voltage
 figure(11)
 clf;hold on;
-k=7;
+k=1;
 set(gcf, 'Position',  [50+xshift, 750+yshift, 400, 200])
 plot(t,bus_V3(:,k),t,bus_V3(:,k+bus_n),t,bus_V3(:,k+2*bus_n))
 legend('va','vb','vc')
