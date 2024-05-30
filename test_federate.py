@@ -275,7 +275,7 @@ class ParaemtFederate:
                 self.emt.net_coe = self.emt.ini.Init_net_coe0
                 self.emt.Glu = self.emt.ini.Init_net_G0_lu
                 self.emt.brch_range = np.array([0,len(self.emt.net_coe)]).reshape(2,1) # 
-            elif (tn*ts >= self.emt.busfault_t) and (tn*ts < self.emt.busfault_t+self.emt.fault_tlen):
+            elif (tn*ts >= self.emt.busfault_t) and (tn*ts < self.emt.busfault_t+self.emt.busfault_tlen):
                 self.emt.Ginv = self.emt.ini.Init_net_G1
                 self.emt.net_coe = self.emt.ini.Init_net_coe1
                 self.emt.Glu = self.emt.ini.Init_net_G1_lu
@@ -300,9 +300,9 @@ class ParaemtFederate:
                         self.emt.brch_Ihis=np.delete(self.emt.brch_Ihis, self.emt.bus_del_ind, 0) # Delete those related to tripped lines, to match the index in update Ihis                 
                     cap_line=1
 
-            self.emt.Ginv = self.emt.ini.Init_net_G0  
-            self.emt.net_coe = self.emt.ini.Init_net_coe0
-            self.emt.Glu = self.emt.ini.Init_net_G0_lu
+            # self.emt.Ginv = self.emt.ini.Init_net_G0  
+            # self.emt.net_coe = self.emt.ini.Init_net_coe0
+            # self.emt.Glu = self.emt.ini.Init_net_G0_lu
 
             tl_1 = time.time()
             self.emt.predictX(self.emt.pfd, self.emt.dyd, ts)
@@ -398,16 +398,16 @@ class ParaemtFederate:
             df_v.to_csv("paraemt.emt_v.csv")
             df_ibran = pd.DataFrame(self.emt.i_branch).T
             df_ibran.to_csv("paraemt.emt_ibranch.csv")
-            # df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
-            # df_x.to_csv("paraemt.emt_x.csv")
-            # df_ibr = pd.DataFrame(self.emt.x_ibr).T
-            # df_ibr.to_csv("paraemt.emt_ibr.csv")
-            # df_ebr = pd.DataFrame(self.emt.x_ibr_epri).T
-            # df_ebr.to_csv("paraemt.emt_ebr.csv")
-            # df_bus = pd.DataFrame(self.emt.x_bus).T
-            # df_bus.to_csv("paraemt.emt_bus.csv")
-            # df_load = pd.DataFrame(self.emt.x_load).T
-            # df_load.to_csv("paraemt.emt_load.csv")
+            df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
+            df_x.to_csv("paraemt.emt_x.csv")
+            df_ibr = pd.DataFrame(self.emt.x_ibr).T
+            df_ibr.to_csv("paraemt.emt_ibr.csv")
+            df_ebr = pd.DataFrame(self.emt.x_ibr_epri).T
+            df_ebr.to_csv("paraemt.emt_ebr.csv")
+            df_bus = pd.DataFrame(self.emt.x_bus).T
+            df_bus.to_csv("paraemt.emt_bus.csv")
+            df_load = pd.DataFrame(self.emt.x_load).T
+            df_load.to_csv("paraemt.emt_load.csv")
         # Save simulation snapshot locally
         output_snp_ful = (
             "sim_snp_S" + str(config.systemN) + "_" + str(int(ts * 1e6)) + "u.pkl"

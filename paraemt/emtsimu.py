@@ -2247,7 +2247,7 @@ class EmtSimu:
             self.node_Ihis,
             # Constant arguments
             self.Vsol,
-            ini.Init_net_coe0,
+            self.net_coe, #ini.Init_net_coe0,
             ini.Init_net_N,
         )
 

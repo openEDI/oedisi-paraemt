@@ -7,7 +7,7 @@ dt = 2*50e-6;
 dataT = readtable('paraemt.emt_x.csv');
 dataTbus = readtable('paraemt.emt_bus.csv');
 dataV3phase = readtable('paraemt.emt_v.csv');
-dataI3phase = readtable('paraemt_ibranch.csv');
+dataI3phase = readtable('paraemt.emt_ibranch.csv');
 
 %% parce the data
 bus_n = 11;
@@ -185,7 +185,7 @@ title('Pm GAST')
 %% Bus Voltage
 figure(11)
 clf;hold on;
-k=2;
+k=7;
 set(gcf, 'Position',  [50+xshift, 750+yshift, 400, 200])
 plot(t,bus_V3(:,k),t,bus_V3(:,k+bus_n),t,bus_V3(:,k+2*bus_n))
 legend('va','vb','vc')

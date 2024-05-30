@@ -38,7 +38,7 @@
     "flag_reinit": 1,
     "busfault_t": 0.5,
     "fault_bus_idx": 6, 
-    "busfault_tlen": 1,
+    "busfault_tlen": 10.083333,
     "busfault_type": 11,
     "busfault_r": [0.00001, 0.00001, 0.00001, 0.00001, 0.00001, 0.00001],
     "add_line_num": 0,
