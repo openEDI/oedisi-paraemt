@@ -235,8 +235,8 @@ class ParaemtFederate:
         ################################################################################
         # for self.emt.fault_bus_idx in range(0, 11): 
         #     for self.emt.busfault_type in range(1, 12):
-        for bus_idx in range(0, 3): 
-            for type in range(1, 3):
+        for bus_idx in range(0, 2): 
+            for type in range(1, 4):
                 cap_line=1
                 config.fault_bus_idx=bus_idx
                 config.busfault_type=type
@@ -404,19 +404,19 @@ class ParaemtFederate:
                 if save_results_csv:
                     print("Saving results...")
                     df_v = pd.DataFrame(self.emt.v).T
-                    df_v.to_csv("paraemt.emt_v.csv")
+                    df_v.to_csv(f"paraemt.emt_v_faultbus{bus_idx}_faulttype{type}.csv")
                     df_ibran = pd.DataFrame(self.emt.i_branch).T
-                    df_ibran.to_csv("paraemt.emt_ibranch{bus_idx}_{type}.csv")
-                    df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
-                    df_x.to_csv("paraemt.emt_x.csv")
-                    df_ibr = pd.DataFrame(self.emt.x_ibr).T
-                    df_ibr.to_csv("paraemt.emt_ibr.csv")
-                    df_ebr = pd.DataFrame(self.emt.x_ibr_epri).T
-                    df_ebr.to_csv("paraemt.emt_ebr.csv")
-                    df_bus = pd.DataFrame(self.emt.x_bus).T
-                    df_bus.to_csv("paraemt.emt_bus.csv")
-                    df_load = pd.DataFrame(self.emt.x_load).T
-                    df_load.to_csv("paraemt.emt_load.csv")
+                    df_ibran.to_csv(f"paraemt.emt_ibranch_faultbus{bus_idx}_faulttype{type}.csv")
+                    # df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
+                    # df_x.to_csv("paraemt.emt_x.csv")
+                    # df_ibr = pd.DataFrame(self.emt.x_ibr).T
+                    # df_ibr.to_csv("paraemt.emt_ibr.csv")
+                    # df_ebr = pd.DataFrame(self.emt.x_ibr_epri).T
+                    # df_ebr.to_csv("paraemt.emt_ebr.csv")
+                    # df_bus = pd.DataFrame(self.emt.x_bus).T
+                    # df_bus.to_csv("paraemt.emt_bus.csv")
+                    # df_load = pd.DataFrame(self.emt.x_load).T
+                    # df_load.to_csv("paraemt.emt_load.csv")
                 # Save simulation snapshot locally
                 output_snp_ful = (
                     "sim_snp_S" + str(config.systemN) + "_" + str(int(ts * 1e6)) + "u.pkl"
