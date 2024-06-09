@@ -1797,10 +1797,12 @@ class EmtSimu:
         self.v[self.save_idx] = self.Vsol.copy()
 
         # Save branch crrent
-        # term=self.brch_Ipre.copy()
-        # term2=9*len(self.pfd.line_from)
-        # self.i_branch[self.save_idx]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))   # save only line RL current
-        self.i_branch[self.save_idx]=self.brch_Ipre.copy()
+        term=self.brch_Ipre.copy()
+        term2=9*len(self.pfd.line_from)
+        term3=9*len(self.pfd.line_from)+3*len(self.pfd.xfmr_from) # save only line RL current and transformer current
+        self.i_branch[self.save_idx]=np.concatenate((term[9*len(self.pfd.line_from):term3:3], term[0:term2:9],  \
+                                                     term[9*len(self.pfd.line_from)+1:term3:3],term[1:term2:9],  \
+                                                    term[9*len(self.pfd.line_from)+2:term3:3], term[2:term2:9]))   
         
         # Save generator state
         if self.ngen > 0:

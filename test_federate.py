@@ -235,8 +235,8 @@ class ParaemtFederate:
         ################################################################################
         # for self.emt.fault_bus_idx in range(0, 11): 
         #     for self.emt.busfault_type in range(1, 12):
-        for bus_idx in range(0, 2): 
-            for type in range(1, 4):
+        for bus_idx in range(0, 1): 
+            for type in range(1, 2):
                 cap_line=1
                 config.fault_bus_idx=bus_idx
                 config.busfault_type=type
