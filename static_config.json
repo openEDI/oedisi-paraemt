@@ -43,6 +43,6 @@
     "busfault_r": [0.00001, 0.00001, 0.00001, 0.00001, 0.00001, 0.00001],
     "add_line_num": 0,
     "fault_tripline" : 0,
-    "fault_line_idx" : 2,
+    "fault_line_idx" : 1,
     "bus_del_ind":[]
 }

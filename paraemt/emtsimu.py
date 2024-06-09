@@ -767,9 +767,15 @@ class EmtSimu:
         self.brch_Ihis = ini.Init_brch_Ihis.copy()
         self.brch_Ipre = ini.Init_brch_Ipre.copy()
         self.node_Ihis = ini.Init_node_Ihis.copy()
+        # term=self.brch_Ipre.copy()
+        # term2=9*len(pfd.line_from)
+        # self.i_branch[0]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))  
         term=self.brch_Ipre.copy()
-        term2=9*len(pfd.line_from)
-        self.i_branch[0]=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))  
+        term2=9*len(self.pfd.line_from)
+        term3=9*len(self.pfd.line_from)+3*len(self.pfd.xfmr_from) # save  line RL current and transformer current
+        self.i_branch[self.save_idx]=np.concatenate((term[9*len(self.pfd.line_from):term3:3], term[0:term2:9],  \
+                                                     term[9*len(self.pfd.line_from)+1:term3:3],term[1:term2:9],  \
+                                                     term[9*len(self.pfd.line_from)+2:term3:3], term[2:term2:9]))   
 
         self.brch_range = np.array([0, len(self.brch_Ihis)]).reshape(2, 1)
         self.brch_counts = np.array([self.brch_range.size])
@@ -1802,7 +1808,7 @@ class EmtSimu:
         term3=9*len(self.pfd.line_from)+3*len(self.pfd.xfmr_from) # save only line RL current and transformer current
         self.i_branch[self.save_idx]=np.concatenate((term[9*len(self.pfd.line_from):term3:3], term[0:term2:9],  \
                                                      term[9*len(self.pfd.line_from)+1:term3:3],term[1:term2:9],  \
-                                                    term[9*len(self.pfd.line_from)+2:term3:3], term[2:term2:9]))   
+                                                     term[9*len(self.pfd.line_from)+2:term3:3], term[2:term2:9]))   
         
         # Save generator state
         if self.ngen > 0:

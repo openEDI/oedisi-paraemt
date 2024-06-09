@@ -235,8 +235,8 @@ class ParaemtFederate:
         ################################################################################
         # for self.emt.fault_bus_idx in range(0, 11): 
         #     for self.emt.busfault_type in range(1, 12):
-        for bus_idx in range(0, 1): 
-            for type in range(1, 2):
+        for bus_idx in range(0, 11): 
+            for type in range(1, 12):
                 cap_line=1
                 config.fault_bus_idx=bus_idx
                 config.busfault_type=type
@@ -404,9 +404,9 @@ class ParaemtFederate:
                 if save_results_csv:
                     print("Saving results...")
                     df_v = pd.DataFrame(self.emt.v).T
-                    df_v.to_csv(f"paraemt.emt_v_faultbus{bus_idx}_faulttype{type}.csv")
+                    df_v.to_csv(f"paraemt.emt_v_faultbus{bus_idx+1}_faulttype{type}.csv")
                     df_ibran = pd.DataFrame(self.emt.i_branch).T
-                    df_ibran.to_csv(f"paraemt.emt_ibranch_faultbus{bus_idx}_faulttype{type}.csv")
+                    df_ibran.to_csv(f"paraemt.emt_ibranch_faultbus{bus_idx+1}_faulttype{type}.csv")
                     # df_x = pd.DataFrame(self.emt.x).T   # Could be enabled later if useful
                     # df_x.to_csv("paraemt.emt_x.csv")
                     # df_ibr = pd.DataFrame(self.emt.x_ibr).T
