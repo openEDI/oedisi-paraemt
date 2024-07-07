@@ -6,7 +6,7 @@ import numba
 # config.DISABLE_JIT = False
 # import math
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_set_coo(
         rows,
         cols,
@@ -21,7 +21,7 @@ def numba_set_coo(
     data[idx] = val
     return
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_InitNet(
         # pfd
         basemva,
@@ -667,7 +667,7 @@ def numba_predictX(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateIg(
         gen_range,
         ## Begin "Returned" Arrays ##
@@ -798,7 +798,7 @@ def numba_updateIg(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateIibr(
         ibr_range,
         ## Begin "Returned" Arrays ##
@@ -865,7 +865,7 @@ def numba_updateIibr(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateIl(
         load_range,
         #### Altered Arguments ####
@@ -922,7 +922,7 @@ def numba_updateIl(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_BusMea(
         bus_range,
         #### Altered Arguments ####
@@ -997,7 +997,7 @@ def numba_BusMea(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateX(
         #### Indices ####
         gen_range,
@@ -1602,7 +1602,7 @@ def numba_updateX(
     return x_pv_1_out
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateXibr(
         ibr_range,
         #### Altered Arguments ####
@@ -2118,7 +2118,7 @@ def numba_updateXibr(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateXl(
         load_range,
         #### Altered Arguments ####
@@ -2177,7 +2177,7 @@ def numba_updateXl(
     return
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_update_vpn0(
         nbus,
         vm,
@@ -2207,7 +2207,7 @@ def numba_update_vpn0(
     return vpn0
 
 
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_update_ipn0(
         nbus,
         im,
@@ -2238,7 +2238,7 @@ def numba_update_ipn0(
 
 
 ## WARNING: If parallelized, this function contains race conditions!!
-# @numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
+@numba.jit(nopython=True, nogil=True, boundscheck=False, parallel=False)
 def numba_updateIhis(
         # range of indices
         brch_range,
