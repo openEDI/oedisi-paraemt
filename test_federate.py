@@ -4,6 +4,7 @@ import os
 import time
 import json
 import logging
+from paraemt.figure_plot import results_plot
 from paraemt.psutils import initialize_bus_fault
 from paraemt.serial_emtsimu import SerialEmtSimu
 from datetime import datetime
@@ -388,6 +389,9 @@ class ParaemtFederate:
             t_save += tl_18 - tl_17
             t_helc += tl_19 - tl_18
             Nsteps += 1
+
+        # Plot the results ==========================================================================
+        self.emt.results_plot(self,config.ts,config.Tlen)
 
         # ==========================================================================
         # Save simulation results locally
