@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import time
 import os
+import matplotlib.pyplot as plt
 from collections import deque
 
 from paraemt.states import States

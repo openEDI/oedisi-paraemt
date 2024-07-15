@@ -1,20 +1,25 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def results_plot(self, ts,Tlen):
+def results_plot(emt, ts,Tlen):
     # Plot the results ==========================================================================
+    gen_genrou_odr=18
+    gen_genrou_n=4
     xaxis = np.arange(0, Tlen, ts)
+    m=emt.x[:,1]
     fig, axs = plt.subplots(4,3, sharex=True, sharey=False)
 
     # No 1, synchronous generator Delta angle
     fig.suptitle("Generator Rotor Angle")
-    axs[0,0].plot(xaxis, self.emt.x, color="tab:red", linestyle="-")
+    axs[0,0].plot(xaxis, emt.x[:,1:gen_genrou_odr:gen_genrou_odr*gen_genrou_n], color="tab:red", linestyle="-")
     axs[0,0].set_yticks(np.arange(-1.5, 1.5, 0.5))
     # axs[0,0].set_ylim(-1.5, 1.5)
     axs[0,0].set(ylabel="Generator Rotor Angle (rad)")
     axs[0,0].grid(True)
 
-
+    emt.x[:][1]
+    emt.x[:,1]
+    second_column = [row[1] for row in emt.x]
     # No 2, synchronous generator rotor frequency
 
 
@@ -49,3 +54,5 @@ def results_plot(self, ts,Tlen):
     plt.xlabel("time (s)")
     plt.savefig("ParaEMT_Voltage_Current.png", format="png")
     plt.show()
+    
+    return
