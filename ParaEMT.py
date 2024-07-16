@@ -87,7 +87,7 @@ class ParaemtFederate:
 
         Parameters
         ----------
-        config : TestFederateConfig
+        config : ParaEMTFederateConfig
             Static configuration including the federate name and input needed at startup.
         input_mapping : dict[str,str]
             Maps any dynamic inputs to helics subscription keys. In this example,

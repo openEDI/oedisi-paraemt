@@ -14,7 +14,7 @@ from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from oedisi.types.common import BrokerConfig, HeathCheck, ServerReply
 
-from test_federate import run_simulator
+from ParaEMT import run_simulator
 
 app = FastAPI()
 
