@@ -1,6 +1,6 @@
 {
     "directory": "oedisi_template",
-    "execute_function": "python test_federate.py",
+    "execute_function": "python ParaEMT.py",
     "static_inputs": [
         {
             "type": "",

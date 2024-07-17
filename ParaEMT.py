@@ -391,7 +391,7 @@ class ParaemtFederate:
             Nsteps += 1
 
         # Plot the results ==========================================================================
-        results_plot(self.emt,config.ts,config.Tlen)
+        # results_plot(self.emt,config.ts,config.Tlen)
 
         # ==========================================================================
         # Save simulation results locally

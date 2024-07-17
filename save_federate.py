@@ -20,7 +20,7 @@ def destroy_federate(fed):
 
 
 if __name__ == "__main__":
-    total_interval = 0.2
+    total_interval = 10
     ##########  Registering  federate and configuring from JSON################
     fed = h.helicsCreateValueFederateFromConfig("save_fed_config.json")
     federate_name = h.helicsFederateGetName(fed)

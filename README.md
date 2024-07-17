@@ -10,7 +10,7 @@ helics_broker -f 1
 and
 
 ```
-python test_federate.py
+python ParaEMT.py
 ```
 
 ## Install Requirements

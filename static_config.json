@@ -1,5 +1,5 @@
 {
-    "name": "paraemt",
+    "name": "ParaEMT",
     "pfd_file": "cases/pfd_2area_1_1.json",
     "dyd_file": "models/2area_psse/Benchmark_twoarea_test.xls",
     "systemN": 6,

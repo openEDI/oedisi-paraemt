@@ -1,0 +1,20 @@
+
+{
+    "name": "ParaEMT",
+    "period": 0.001,
+    "publications": [
+    {
+        "global": true,
+        "key": "ParaEMT/emt_Vsol",   
+        "type": "double"
+    },
+    {
+        "global": true,
+        "key": "ParaEMT/emt_Ibranch",
+        "type": "double"
+    }
+      ],
+
+    "subscriptions": [
+    ]
+}
