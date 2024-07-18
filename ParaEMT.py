@@ -84,7 +84,6 @@ class ParaemtFederate:
         broker_config: BrokerConfig,
     ):
         """Paraemt HELICS federate with oedisi
-
         Parameters
         ----------
         config : ParaEMTFederateConfig
@@ -96,7 +95,6 @@ class ParaemtFederate:
             Configures the helics broker ip and port. Default is 127.0.0.1:23404.
         """
         self.emt = self.initialize_emt(config)
-
         fedinfo = h.helicsCreateFederateInfo()
         fedinfo.core_name = config.name  # Sets HELICS name
         fedinfo.core_type = (
@@ -355,7 +353,10 @@ class ParaemtFederate:
                 self.pub_V_net.publish(self.emt.Vsol.tolist())
 
                 # Index of branch current
-                self.pub_I_net.publish(self.emt.brch_Ipre.tolist())
+                term=self.emt.brch_Ipre.copy()
+                term2=9*len(self.emt.pfd.line_from)
+                term3=np.concatenate((term[0:term2:9], term[1:term2:9], term[2:term2:9]))
+                self.pub_I_net.publish(term3.tolist())
 
                 # self.pub_example.publish(
                 # If possible, use either basic types available like floats, ints, etc, or types provided
@@ -491,7 +492,7 @@ class ParaemtFederate:
         {variable_timing_string}
         Total:       {elapsed:10.2e}
         """
-        print(timing_string)
+        # print(timing_string)
         # ==========================================================================
         self.destroy()
 

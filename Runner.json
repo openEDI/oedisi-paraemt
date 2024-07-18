@@ -4,9 +4,9 @@
     "federates": [
       {
         "directory": ".",
-        "exec": "python test_federate.py",
+        "exec": "python ParaEMT.py",
         "host": "localhost",
-        "name": "test_federate"
+        "name": "ParaEMT"
       },
       {
         "directory": ".",
