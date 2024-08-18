@@ -120,7 +120,6 @@ class ParaemtFederate:
             "emt_Ibranch", h.HELICS_DATA_TYPE_VECTOR, ""
         )
     
-    # TODO to confirm, moved here
     def initialize_emt(self, config): # TODO to confirm, Min added self
         # ==========================================================================
         # Read the JOSON configuuration of EMT simulation
