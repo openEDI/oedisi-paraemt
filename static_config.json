@@ -37,15 +37,19 @@
     "flag_gentrip": 1,
     "flag_reinit": 1,
     "busfault_t": 1,
-    "fault_bus_idx": 6, 
+    "fault_bus_idx": 6,
     "busfault_tlen": 0.083333,
     "busfault_type": 11,
-    "busfault_r": [0.00001, 0.00001, 0.00001, 0.00001, 0.00001, 0.00001],
+    "busfault_r": [
+        0.00001,
+        0.00001,
+        0.00001,
+        0.00001,
+        0.00001,
+        0.00001
+    ],
     "add_line_num": 0,
-    "fault_tripline" : 0,
-    "fault_line_idx" : 2,
-    "bus_del_ind":[]
+    "fault_tripline": 0,
+    "fault_line_idx": 2,
+    "bus_del_ind": []
 }
-
-
-

@@ -18,24 +18,6 @@ from ctypes import *
 
 from paraemt.Python_C_DLL_wrapper import wrap_function, MODELINSTANCE, MODELINFO
 
-shared_lib_path = os.getcwd() + "\\models\\ibrepri.dll"
-# EPRI's IBR model
-add_lib = CDLL(shared_lib_path)  # Min
-Model_GetInfo = wrap_function(add_lib, "Model_GetInfo", POINTER(MODELINFO), None)
-Model_Outputs = wrap_function(add_lib, "Model_Outputs", c_int, [POINTER(MODELINSTANCE)])
-
-info = Model_GetInfo()
-num_in_ports, num_out_ports, num_param = (
-    info.contents.cNumInputPorts,
-    info.contents.cNumOutputPorts,
-    info.contents.cNumParameters,
-)
-num_int_states, num_float_states, num_double_states = (
-    info.contents.cNumIntStates,
-    info.contents.cNumFloatStates,
-    info.contents.cNumDoubleStates,
-)
-
 import pandas as pd
 
 alpha = np.exp(1j * 2 * np.pi / 3)
@@ -212,7 +194,7 @@ class EmtSimu:
         self.fault_tlen = 0
         self.fault_dist = 0
         self.fault_type = 11
-        self.fault_r = [np.Inf, np.Inf, np.Inf, np.Inf, np.Inf, np.Inf]
+        self.fault_r = [np.inf, np.inf, np.inf, np.inf, np.inf, np.inf]
         self.fault_tripline = (
             0  # 0 - no line tripping, 1 - line tripped upon fault clearance
         )

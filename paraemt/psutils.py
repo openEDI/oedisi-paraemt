@@ -516,71 +516,71 @@ def initialize_bus_fault(emt, mode = 'inv'):
 
     if emt.busfault_type == 1:
         r1g = emt.busfault_r[0] / Init_net_ZbaseA[bus_fault]
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.busfault_type == 2:
-        r1g = np.Inf
+        r1g = np.inf
         r2g = emt.busfault_r[1] / Init_net_ZbaseA[bus_fault]
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.busfault_type == 3:
-        r1g = np.Inf
-        r2g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
         r3g = emt.busfault_r[2] / Init_net_ZbaseA[bus_fault]
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.busfault_type == 4:
         r1g = emt.busfault_r[0] / Init_net_ZbaseA[bus_fault]
         r2g = emt.busfault_r[1] / Init_net_ZbaseA[bus_fault]
-        r3g = np.Inf
+        r3g = np.inf
         r12 = emt.busfault_r[3] / Init_net_ZbaseA[bus_fault]
-        r23 = np.Inf
-        r13 = np.Inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.busfault_type == 5:
-        r1g = np.Inf
+        r1g = np.inf
         r2g = emt.busfault_r[1] / Init_net_ZbaseA[bus_fault]
         r3g = emt.busfault_r[2] / Init_net_ZbaseA[bus_fault]
-        r12 = np.Inf
+        r12 = np.inf
         r23 = emt.busfault_r[4] / Init_net_ZbaseA[bus_fault]
-        r13 = np.Inf
+        r13 = np.inf
     elif emt.busfault_type == 6:
         r1g = emt.busfault_r[0] / Init_net_ZbaseA[bus_fault]
-        r2g = np.Inf
+        r2g = np.inf
         r3g = emt.busfault_r[2] / Init_net_ZbaseA[bus_fault]
-        r12 = np.Inf
-        r23 = np.Inf
+        r12 = np.inf
+        r23 = np.inf
         r13 = emt.busfault_r[5] / Init_net_ZbaseA[bus_fault]
     elif emt.busfault_type == 7:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
         r12 = emt.busfault_r[3] / Init_net_ZbaseA[bus_fault]
-        r23 = np.Inf
-        r13 = np.Inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.busfault_type == 8:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
         r23 = emt.busfault_r[4] / Init_net_ZbaseA[bus_fault]
-        r13 = np.Inf
+        r13 = np.inf
     elif emt.busfault_type == 9:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
         r13 = emt.busfault_r[5] / Init_net_ZbaseA[bus_fault]
     elif emt.busfault_type == 10:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
         r12 = emt.busfault_r[3] / Init_net_ZbaseA[bus_fault]
         r23 = emt.busfault_r[4] / Init_net_ZbaseA[bus_fault]
         r13 = emt.busfault_r[5] / Init_net_ZbaseA[bus_fault]
@@ -608,7 +608,7 @@ def initialize_bus_fault(emt, mode = 'inv'):
     N1 = len(pfd.bus_num)
     for i in range(3):
         for j in range(3):
-            if (i<=j) & (R_fault[i][j]!=np.Inf): # consider only half
+            if (i<=j) & (R_fault[i][j]!=np.inf): # consider only half
                 From_idx = bus_fault + i*N1  # aaa.., bbb..., ccc... of all From_bus
                 To_idx = bus_fault + j*N1
                 if i==j:
@@ -740,71 +740,71 @@ def initialize_fault(emt, mode="inv"):
 
     if emt.fault_type == 1:
         r1g = emt.fault_r[0] / Init_net_ZbaseA[busi]
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.fault_type == 2:
-        r1g = np.Inf
+        r1g = np.inf
         r2g = emt.fault_r[1] / Init_net_ZbaseA[busi]
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.fault_type == 3:
-        r1g = np.Inf
-        r2g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
         r3g = emt.fault_r[2] / Init_net_ZbaseA[busi]
-        r12 = np.Inf
-        r23 = np.Inf
-        r13 = np.Inf
+        r12 = np.inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.fault_type == 4:
         r1g = emt.fault_r[0] / Init_net_ZbaseA[busi]
         r2g = emt.fault_r[1] / Init_net_ZbaseA[busi]
-        r3g = np.Inf
+        r3g = np.inf
         r12 = emt.fault_r[3] / Init_net_ZbaseA[busi]
-        r23 = np.Inf
-        r13 = np.Inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.fault_type == 5:
-        r1g = np.Inf
+        r1g = np.inf
         r2g = emt.fault_r[1] / Init_net_ZbaseA[busi]
         r3g = emt.fault_r[2] / Init_net_ZbaseA[busi]
-        r12 = np.Inf
+        r12 = np.inf
         r23 = emt.fault_r[4] / Init_net_ZbaseA[busi]
-        r13 = np.Inf
+        r13 = np.inf
     elif emt.fault_type == 6:
         r1g = emt.fault_r[0] / Init_net_ZbaseA[busi]
-        r2g = np.Inf
+        r2g = np.inf
         r3g = emt.fault_r[2] / Init_net_ZbaseA[busi]
-        r12 = np.Inf
-        r23 = np.Inf
+        r12 = np.inf
+        r23 = np.inf
         r13 = emt.fault_r[5] / Init_net_ZbaseA[busi]
     elif emt.fault_type == 7:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
         r12 = emt.fault_r[3] / Init_net_ZbaseA[busi]
-        r23 = np.Inf
-        r13 = np.Inf
+        r23 = np.inf
+        r13 = np.inf
     elif emt.fault_type == 8:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
         r23 = emt.fault_r[4] / Init_net_ZbaseA[busi]
-        r13 = np.Inf
+        r13 = np.inf
     elif emt.fault_type == 9:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
-        r12 = np.Inf
-        r23 = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
+        r12 = np.inf
+        r23 = np.inf
         r13 = emt.fault_r[5] / Init_net_ZbaseA[busi]
     elif emt.fault_type == 10:
-        r1g = np.Inf
-        r2g = np.Inf
-        r3g = np.Inf
+        r1g = np.inf
+        r2g = np.inf
+        r3g = np.inf
         r12 = emt.fault_r[3] / Init_net_ZbaseA[busi]
         r23 = emt.fault_r[4] / Init_net_ZbaseA[busi]
         r13 = emt.fault_r[5] / Init_net_ZbaseA[busi]
